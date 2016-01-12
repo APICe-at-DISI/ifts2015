@@ -1,0 +1,13 @@
+# Site settings
+title: "Istruzione e Formazione Tecnica Superiore 2015 @ DISI"
+email: danilo.pianini@unibo.it
+description: > # this means to ignore newlines until "baseurl:"
+  Materiale per il modulo di Elementi di Programmazione e Sviluppo di Applicazioni
+baseurl: "/ifts" # the subpath of your site, e.g. /blog/
+url: "http://http://localhost:4000" # the base hostname & protocol for your site
+twitter_username: DanySK86
+github_username:  danysk
+encoding: utf-8
+
+# Build settings
+markdown: kramdown
