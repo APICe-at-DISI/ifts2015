@@ -1,0 +1,229 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[presentation]{beamer} %\mode<presentation>{\usetheme{sapere}}
+\usetheme{CambridgeUS}
+\usecolortheme{orchid}
+
+\definecolor{themeColor}{HTML}{11AD1E}
+
+\setbeamercolor*{structure}{bg=black,fg=themeColor}
+
+\setbeamercolor*{palette primary}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor*{palette secondary}{use=structure,fg=white,bg=structure.fg!75}
+\setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=structure.fg!50!black}
+\setbeamercolor*{palette quaternary}{fg=white,bg=black}
+
+\setbeamercolor{section in toc}{fg=black,bg=white}
+\setbeamercolor{alerted text}{use=structure,fg=structure.fg!50!black!80!black}
+
+\setbeamercolor{titlelike}{parent=palette primary,fg=structure.fg!50!black}
+\setbeamercolor{frametitle}{bg=structure.fg!10!white,fg=structure.fg!50!black!80!black}
+
+\setbeamercolor*{titlelike}{parent=palette primary}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{amsfonts,amstext,amssymb,wasysym}
+\usepackage{fancyvrb}
+\usepackage{alltt}
+\usepackage{textcomp}
+\usepackage{url}
+\usepackage{multimedia,pgf}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{bibentry}
+\usepackage{framed}
+\usepackage{cleveref}
+\nobibliography*
+
+% Code highlighting
+\definecolor{Fuchsia}{HTML}{8C368C}
+\definecolor{OliveGreen}{HTML}{3C8031}
+
+\newcommand{\il}[1]{{\it \textcolor{gray}{// #1}}} % inline comment
+\newcommand{\km}[1]{\textcolor{purple}{#1}} % key mechanism primitives
+\newcommand{\ex}[1]{\textcolor{blue}{#1}} % external imported Java values
+\newcommand{\fc}[1]{\textcolor{Fuchsia}{#1}} % field calculus calls
+\newcommand{\fn}[1]{\textcolor{blue}{#1}} % building block / function calls
+\newcommand{\vb}[1]{\textcolor{OliveGreen}{#1}} % variables
+\newcommand{\str}[1]{\textcolor{darkgray}{#1}} % strings
+
+\newcommand{\bral}{\textrm{{\tt {\char '173}}}\,}
+\newcommand{\brar}{\textrm{{\tt {\char '175}}}}
+\newcommand{\var}{\texttt{x}}
+\newcommand{\asgK}{~\texttt{=}~}
+\newcommand{\letK}{\texttt{let}~}
+\newcommand{\tupK}[1]{\texttt{[}#1\texttt{]}}
+\newcommand{\lambdaK}[2]{\texttt{(}#1\texttt{)->}#2}
+\newcommand{\bodyK}[1]{\bral\! #1\!\brar}
+\newcommand{\dotK}{\texttt{.}}
+\newcommand{\applyK}{\texttt{apply}}
+\newcommand{\mname}{\ex{\texttt{m}}}
+\newcommand{\aname}{\ex{\texttt{\#a}}}
+\newcommand{\repK}[3]{\texttt{\fc{rep}(#1<-#2)}#3}
+\newcommand{\ifK}[3]{\texttt{\fc{if}}(#1)#2\,\texttt{\fc{else}}\,#3}
+\newcommand{\muxK}[3]{\texttt{\fc{mux}}(#1)#2\,\texttt{\fc{else}}\,#3}
+\newcommand{\nbrK}[1]{\texttt{\fc{nbr}}#1}
+
+
+\title[Introduction]{Elementi di Programmazione e Sviluppo di Applicazioni}
+
+\author[Pianini, Viroli]{
+Danilo Pianini e Mirko Viroli\\
+\texttt{{\footnotesize \{danilo.pianini, mirko.viroli\}@unibo.it}}}
+
+
+\institute[UniBo]
+{\textsc{Alma Mater Studiorum}---Universit\`a di Bologna a Cesena}
+
+\date[\today]{Corso di Istruzione e Formazione Tecnica Superiore\\
+\scriptsize 2016-01-12 - Cesena, Italia
+}
+
+\pgfdeclareimage[height=0.625cm]{university-logo}{images/logo}
+\logo{\pgfuseimage{university-logo}}
+
+
+\begin{document}
+
+\AtBeginSubsection[]{%
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+  \addtocounter{framenumber}{-1}% If you don't want them to affect the slide number
+}
+
+%===============================================================================
+\frame[label=coverpage]{\titlepage}
+%===============================================================================
+
+\section*{Outline}
+%===============================================================================
+\frame{\tableofcontents}
+
+%===============================================================================
+\section{Contenuti del corso}
+%===============================================================================
+
+\subsection{Elementi di base del linguaggio C}
+
+\begin{frame}
+	\begin{block}{Contenuti}
+		\begin{itemize}
+			\item Compilazione ed esecuzione di programmi C
+			\item Tipi di dato
+			\item Istruzioni di controllo
+			\item Ricorsività e iteratività
+			\item ``Avanzate'': puntatori, array e strutture dati
+			\item Input / Output
+		\end{itemize}
+	\end{block}
+	\begin{block}{Obiettivi}
+		\begin{itemize}
+			\item Essere in grado di scrivere semplici programmi C
+			\item Essere in grado di leggere programmi C fatti da altri
+			\item Essere in grado di compilare ed eseguire programmi C
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\subsection{La programmazione orientata agli oggetti e il linguaggio Java}
+
+\begin{frame}
+	\begin{block}{Contenuti}
+		\begin{itemize}
+			\item Elementi di base di programmazione OO
+			\item Incapsulamento e interfacce
+			\item Ereditarietà e polimorfismo
+			\item Eccezioni e meccanismi avanzati
+			\item Input / Output
+			\item Interfacce grafiche
+		\end{itemize}
+	\end{block}
+	\begin{block}{Obiettivi}
+		\begin{itemize}
+			\item Essere in grado di compilare ed eseguire programmi Java
+			\item Essere in grado di leggere e scrivere programmi Java
+			\item Avere i mezzi per costruire applicazioni anche elaborate
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\subsection{Elementi di base di ingegneria del software}
+
+\begin{frame}
+	\begin{block}{Contenuti}
+		\begin{itemize}
+			\item Metodologie di sviluppo
+			\item Modellare con UML
+			\item Design patterns
+			\item Debugging
+			\item Testing
+		\end{itemize}
+	\end{block}
+	\begin{block}{Obiettivi}
+		\begin{itemize}
+			\item Comprendere le fasi di sviluppo di un progetto software
+			\item Capire le basi del linguaggio grafico UML
+			\item Capire il concetto di design pattern e alcuni esempi
+			\item Capire l'importanza delle tecniche di testing e debug, e saperne applicare alcune
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\section{Metodologia}
+
+\begin{frame}{Approccio al corso}
+	\begin{block}{Grado di approfondimento}
+		\begin{itemize}
+			\item Il programma è \textbf{molto} vasto, per essere trattato in modo molto approfondito richiede (almeno) tre corposi corsi universitari
+			\item Il nostri obiettivi sono:
+				\begin{itemize}
+					\item Fornirvi una conoscenza degli argomenti suddetti sufficiente a rendervi \textbf{operativi}
+					\item Farvi capire le basi in modo tale da rendervi capaci di approfondire anche in modo autonomo
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+	\begin{block}{Flessibilità}
+		\begin{itemize}
+			\item La quantità di contenuti che riusciremo a sviscerare dipenderà da quanto bene e velocemente riuscirete a farli vostri
+			\item Cercheremo di stimolarvi sugli argomenti che ci sembrano interessarvi maggiormente
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{A lezione}
+	\begin{block}{Molta pratica}
+		Le lezioni saranno strutturate come spiegazioni seguite da esercizi.
+		
+		Il principio è: impara una cosa e mettila subito in pratica!
+	\end{block}
+	\begin{block}{Gli appunti sono importanti}
+		Per alcuni argomenti (sicuramente per il primo modulo) spiegheremo di mano in mano senza slides.
+		\begin{itemize}
+			\item Interazione diretta con voi
+			\item Superamento di ostacoli di comprensione man mano che si presentano
+			\item Più flessibilità!
+		\end{itemize}
+		È importante che prendiate delle note!
+	\end{block}
+\end{frame}
+
+\section*{\refname}
+%===============================================================================
+
+\end{document}
+
+\begin{frame}[allowframebreaks]
+%\begin{frame}[t,allowframebreaks]
+  \frametitle{\refname}
+  \scriptsize
+  \bibliographystyle{alpha}
+  \bibliography{bibliography}
+\end{frame}
+\section*{\refname}
