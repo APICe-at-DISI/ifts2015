@@ -258,3 +258,31 @@ int main(void)
 * Un'operazione logica fra due `double` (e.g. `>`, `<`, `==`) restituisce un `int`.
 
 ## Lezione 02: Input con `scanf` e istruzioni per l'iterazione
+
+# Calcolatrice in C
+
+{% highlight c %}
+int main(void)
+{
+    printf("Inserire il primo valore: ");
+    int var1;
+    scanf("%d", &var1);
+    printf("Inserire il secondo valore: ");
+    int var2;
+    scanf("%d", &var2);
+    printf("%d + %d = %d\n", var1, var2, var1 + var2);
+    printf("%d - %d = %d\n", var1, var2, var1 - var2);
+    printf("%d * %d = %d\n", var1, var2, var1 * var2);
+    if (var2) { // equivale a: if (var2 != 0) {
+        printf("%d / %d = %d\n", var1, var2, var1 / var2);
+    } else {
+        printf("Niente divisioni per zero!\n");
+    }
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* La funzione `scanf` prende in ingresso una stringa che contiene dei formattatori (ad esempio `%d`) e si aspetta in input dall'utente una stringa analoga sul terminale, dalla quale estrarrà i dati che metterà nelle variabili che vengono passati come argomenti aggiuntivi.
+* Le variabili in ingresso alla `scanf` vanno prefisse dal simbolo `&`. Il motivo sarà più chiaro in seguito.
+* La divisione per zero provoca un errore e va sempre evitata
