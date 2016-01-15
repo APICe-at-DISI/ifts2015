@@ -12,7 +12,7 @@ In caso di problemi (link mancanti, problemi di visualizzazione...) si prega di 
 
 Questa parte del corso ha le proprie slides in formato `pdf`. Sono reperibili [a questo link](01/slides/slides.pdf).
 
-La macchina virtuale utilizzata nel corso è disponibile [clickando qui](https://mega.nz/#!mVMnnZwR!FaFTpD5LkljwRKaW1f-dH5EGUmp2Sgve_JR8j9uPEXI).
+La macchina virtuale utilizzata nel corso è disponibile [clickando qui](https://mega.nz/#!LME2VLTa!2kivBCadVDo-hHcoxVbhJazkvw7r4Euk1QqxWroggYc).
 
 ## Lezione 01: primi esperimenti col linguaggio C, compilazione
 
