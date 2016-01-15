@@ -259,7 +259,7 @@ int main(void)
 
 ## Lezione 02: Input con `scanf` e istruzioni per l'iterazione
 
-# Calcolatrice in C
+### Calcolatrice in C
 
 {% highlight c %}
 int main(void)
@@ -286,3 +286,132 @@ int main(void)
 * La funzione `scanf` prende in ingresso una stringa che contiene dei formattatori (ad esempio `%d`) e si aspetta in input dall'utente una stringa analoga sul terminale, dalla quale estrarrà i dati che metterà nelle variabili che vengono passati come argomenti aggiuntivi.
 * Le variabili in ingresso alla `scanf` vanno prefisse dal simbolo `&`. Il motivo sarà più chiaro in seguito.
 * La divisione per zero provoca un errore e va sempre evitata
+
+### Le istruzioni di iterazione: `while` e `for`
+
+{% highlight c %}
+int main(void)
+{
+    int volte;
+    printf("Inserire numero: ");
+    scanf("%d", &volte);
+    int i = 0;
+    while(i < volte) {
+        printf("Ciao per la %desima volta!\n", i + 1);
+        i = i + 1;
+    }
+    for (int j = 0; j < volte; j = j + 1) {
+        printf("Ciao per la %desima volta!\n", j + 1);
+    }
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* Le istruzioni `for` e `while` servono a ripetere un certo numero di volte una sequenza di operazioni, fin tanto che una condizione è valida.
+* È possibile utilizzare una variabile intera per contare quante volte si "entra" in un ciclo, ed uscire dopo un certo numero di "giri": è sufficiente dire che il suo valore deve essere inferiore a quello del numero di volte che vogliamo entrare.
+* `while` prende in ingresso una condizione booleana (che in C è comunque rappresentata da un `int`). Se la condizione è vera (ossia, se l'intero risultante è diverso da 0) viene eseguito il corpo del `while`, ossia tutte le istruzioni fra parentesi graffe. Una volta eseguite le istruzioni, viene ricontrollata la condizione, e se vera vengono ri-eseguite le istruzioni del corpo. Si continua a controllare la condizione / eseguire il corpo fin quando la condizione è vera. Quando (se) la condizione diventa falsa, si esce dal `while` e si va all'istruzione successiva.
+* `for` è molto simile a `while`. È una sorta di `while` arricchito con:
+  1. un'operazione da eseguire una sola volta prima di entrare nel ciclo. È particolarmente utile per definire e inizializzare una nuova variabile su cui contare;
+  2. un'operazione da eseguire al termine del ciclo. È particolarmente utile per incrementare (o decrementare) un conteggio.
+* È possibile definire e inizializzare le variabili su una sola linea (ad esempio `int a = 5;`)
+
+### Errori di looping
+{% highlight c %}
+int main(void)
+{
+    int volte = 1
+    int i = 0;
+    while(i < volte) {
+        printf("Ciao per la %desima volta!\n", i + 1);
+    }
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* Se la condizione del `while` o del `for` è sempre vera (in questo caso `i` vale sempre `0`, `volte` vale sempre `1`, e quindi `i < volte` equivale sempre a `0 < 1`, che è sempre vera), si genera un ciclo infinito.
+* Il programma entra nel ciclo e non ne esce mai più!
+* Bisogna stare attenti, quando si programma, a non avere il caso di cicli "infiniti".
+* Se, per errore, si scrive un programma che non termina e lo si lancia, è possibile terminarlo premendo contemporaneamente i tasti Control e C sul terminale. Questa combinazione di tasti invia (tramite sistema operativo) un segnale di stop al programma, che  termina forzatamente.
+* È anche possibile (ma più laborioso e sconveniente) terminare il programma dal gestore grafico dei processi (ad esempio il task manager di Windows, o un qualunque gestore di processi Linux).
+
+### Operatori relazionali in C
+
+Gli operatori relazionali confrontano due operandi (a destra e a sinistra dell'operatore) e restituiscono un `int` che rappresenta il valore di verità della formula espressa (`0` se falsa, `1` se vera).
+Questi operatori sono fondamentali per poter esprimere delle condizioni, che ci consentiranno di scrivere programmi che usano `if`, `for`, e `while`.
+C (così come Java, ma anche come molti altri linguaggi di programmazione), offre i seguenti operatori relazionali:
+
+* Minore -- `<` -- restituisce `1` se il valore a sinistra del simbolo è più piccolo del valore a destra del simbolo, `0` altrimenti
+* Maggiore -- `>` -- restituisce `1` se il valore a sinistra del simbolo è più grande del valore a destra del simbolo, `0` altrimenti
+* Minore-uguale -- `<=` -- restituisce `0` se il valore a destra del simbolo è più grande del valore a sinistra del simbolo, `1` altrimenti
+* Maggiore-uguale -- `>=` -- restituisce `0` se il valore a sinistra del simbolo è più piccolo del valore a destra del simbolo, `1` altrimenti
+* Uguaglianza -- `==` -- restituisce `1` se il valore a destra del simbolo è uguale a quello a sinistra del simbolo, `0` altrimenti. **Attenzione!** in C (ma anche in C++, Java, C#, Python, e tantissimi altri linguaggi) il simbolo `=` non significa "uguale" ma "assegnamento", ossia *scrive* nella variabile a sinistra del simbolo il risultato delle operazioni a destra del simbolo. Se si vogliono confrontare due valori occorre utilizzare invece `==` (due uguali di fila).
+* Diversità -- `!=` -- restituisce `0` se il valore a destra del simbolo è uguale a quello a sinistra del simbolo, `1` altrimenti.
+
+### Calcolo dell'elevamento a potenza
+
+{% highlight c %}
+int main(void)
+{
+  printf("Inserire elevamento a potenza: ");
+  int base;
+  int esponente;
+  scanf("%d^%d", &base, &esponente);
+  int res = 1; // risultato parziale
+  for (int i = 0; i < esponente; i = i + 1) {
+      res = res * base;
+  }
+  printf("risultato = %d\n", res);
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* Questa è una delle possibili soluzioni. Esistono decine (centinaia, migliaia...) di altre soluzioni che vanno benissimo.
+* Lo stesso identico algoritmo può essere scritto utilizzando `while`.
+* Si noti l'uso di una variabile (`i` in questo caso) che fa da contatore: questo algoritmo funziona moltiplicando `base` per sé stesso tante volte quanto dice l'esponente (applica la definizione di elevamento a potenza). `i` è usato per tenere il conto di quante volte l'operazione di moltiplicazione è già stata fatta.
+
+*Esempio di esecuzione "su carta" dell'algoritmo*
+
+0. stampo a video `Inserire elevamento a potenza: `
+1. creo base
+2. creo esponente
+3. supponiamo che l'utente inserisca `4^3` → `base = 4`, `esponente = 3`
+5. creo `res`, `res = 1`
+6. creo `i`, `i = 0`
+7. `i < esponente` ? → 0 < 3 ? sì
+8. `res = res * base` → `res` = 1 * 4 → `res = 4`
+9. `i = i + 1` = 0 + 1 = 1 → `i = 1`
+10. `i < esponente` ? → 1 < 3 ? sì
+11. `res` = 4 * 4 → `res = 16`
+12. `i` = 1 + 1 → `i = 2`
+13. `i < esponente` ? → 2 < 3 ? sì
+14. `res` = 16 * 4 → `res = 64`
+15. `i` = 2 + 1 → `i = 3`
+16. `i < esponente` ? → 3 < 3 → no
+17. stampo a video `risultato = 64`
+
+### Calcolo dell'elevamento a potenza -- versione avanzata
+
+{% highlight c %}
+int main(void)
+{
+  printf("Inserire elevamento a potenza: ");
+  int num;
+  int pow;
+  scanf("%d^%d", &num, &pow);
+  int res = 1;
+  for (; pow; pow--) {
+      res *= num;
+  }
+  printf("risultato = %d\n", res);
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* È possibile lasciare "vuote" le istruzioni di inizializzazione e fine ciclo di un `for`, nel qual caso non viene eseguita alcuna operazione: `for(; 1;)` è esattamente equivalente a `while(1)`
+* È possibile incrementare utilizzando l'operatore `++` e decrementare utilizzando l'operatore `--`. L'uso di questi operatori è **sconsigliato**, ma potreste trovarli nel codice scritto da altri (il loro uso è molto comune, specie come ultima istruzione dei cicli `for`)
+* È possibile utilizzare gli operatori `+=`, `-=`, `*=`, `/=` per scrivere in modo succinto un'operazione matematica che cambia il valore di una variabile. Ad esempio, `a = a + b` può esser scritto `a += b`. Come per `++` e `--`, il loro utilizzo è sconsigliato almeno fin quando non sarete esperti di programmazione C, ma potreste comunque incontrare questi operatori nel codice scritto da altri
+* A volte è possibile "risparmiare" una variabile contatore decrementando un valore che non verrà utilizzato in futuro (in questo caso `pow`). Tale pratica è sconsigliata, perché rende il codice più difficile da capire in cambio di un "risparmio" di memoria trascurabile. Ancora una volta, però, può capitarvi il caso in cui dobbiate mettere mano a del codice scritto da altri che fa uso di questa pratica
