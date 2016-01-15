@@ -50,7 +50,7 @@ Infatti è necessario ricompilare:
 * Ogni volta che si utilizza un sistema operativo diverso (salvo rarissime eccezioni in cui due sistemi operativi diversi hanno la medesima [Application Binary Interface (ABI)](https://en.wikipedia.org/wiki/Application_binary_interface))
 * Ogni volta che si utilizza una CPU di un'architettura diversa (le CPU con architettura ARM dei vostri smartphone, ad esempio, non "capiscono" le istruzioni macchina dei vostri PC con architettura x86-64, e viceversa)
 
-## Compilazione di sorgenti scritti in C
+### Compilazione di sorgenti scritti in C
 
 Esistono [numerosi compilatori per il linguaggio C](https://en.wikipedia.org/wiki/List_of_compilers#C_compilers).
 I più importanti sono:
@@ -67,7 +67,7 @@ gcc nomefile.c
 {% endhighlight %}
 cerca nella directory corrente il file `nomefile.c`, se lo trova ed è un file C valido produce un file binario chiamato `a.out`, eseguibile dalla macchina corrente.
 
-## Un programma C "vuoto"
+### Un programma C "vuoto"
 
 {% highlight c %}
 int main(void)
@@ -82,7 +82,7 @@ int main(void)
 * Un `main` ha un *corpo* racchiuso fra parentesi graffe, che contiene le istruzioni
 * C è un linguaggio **case sensitive** (come la stragrande maggioranza dei linguaggi di programmazione), ossia fa differenza fra maiuscole e minuscole: `Main` è diverso da `main` e anche da `mAin`.
 
-## Un programma C che stampa a video
+### Un programma C che stampa a video
 
 {% highlight c %}
 int main(void)
@@ -102,7 +102,7 @@ int main(void)
 * Le istruzioni inserite dentro un *corpo* (fra parentesi graffe) vanno *indentate*, ossia vanno "spostate" più internamente. Questo non è obbligatorio per far compilare il programma, ma è importante per rendere il codice *leggibile* e quindi *usabile anche da altri* (e da voi stessi a distanza di tempo!).
 * Se compilato ed eseguito, questo programma stampa a video il testo `Hello, world!`, quindi va a capo
 
-## Un programma C con variabili intere
+### Un programma C con variabili intere
 
 {% highlight c %}
 int main(void)
@@ -122,7 +122,7 @@ int main(void)
 * È possibile stampare a video una variabile o un altro valore intero usando la `printf`. Per farlo, bisogna specificare, all'interno della stringa che viene passata come primo argomento, un "formattatore", ossia un carattere `%` seguito da una lettera che specifica come "interpretare" la variabile, ossia che significato darle. La variabile viene presa dal secondo argomento
 * Il programma stampa a video la scritta `La variabile vale: 15`
 
-## Stampare multiple variabili
+### Stampare multiple variabili
 
 {% highlight c %}
 int main(void)
@@ -139,7 +139,7 @@ int main(void)
 * Il programma stampa a video la scritta `La variabile vale: 15, mentre l'intero vale 20`.
 
 
-## Interi come valori booleani
+### Interi come valori booleani
 
 {% highlight c %}
 int main(void)
@@ -157,7 +157,7 @@ int main(void)
 * Il programma stampa a video: `La variabile vale: 15, mentre l'intero vale 20`
 
 
-## L'istruzione `if`
+### L'istruzione `if`
 
 {% highlight c %}
 int main(void)
@@ -178,7 +178,7 @@ int main(void)
 * Se la condizione fosse stata `a < 5`, il programma avrebbe stampato solo `Ho finito`.
 * In realtà se c'è una sola istruzione all'interno dell'`if` è possibile omettere le parentesi graffe. Questa pratica è *fortemente sconsigliata* e conduce facilmente a bug.
 
-## L'istruzione `else`
+### L'istruzione `else`
 {% highlight c %}
 int main(void)
 {
@@ -227,7 +227,7 @@ int main(void)
 * È possibile utilizzare i commenti per escludere (magari temporaneamente) delle righe di codice dalla compilazione (ad esempio per delle prove).
 * Il programma stampa a video `A è minore di 5`, va a capo, quindi stampa `Ho finito`, quindi va a capo nuovamente. Si noti che la penultima riga è commentata, e non sarà eseguita.
 
-## Numeri reali: il tipo `double`
+### Numeri reali: il tipo `double`
 
 {% highlight c %}
 int main(void)
@@ -256,3 +256,5 @@ int main(void)
 * È possibile specificare che un numero è di tipo `double` scrivendo esplicitamente il numero "con la virgola": ad esempio `3.0` (anche se ha un valore che potrebbe essere rappresentato precisamente da un intero) è di tipo `double`.
 * Un'operazione matematica fra due `double` restituisce un `double`, un'operazione matematica fra un `int` e un double restituisce un `double`
 * Un'operazione logica fra due `double` (e.g. `>`, `<`, `==`) restituisce un `int`.
+
+## Lezione 02: Input con `scanf` e istruzioni per l'iterazione
