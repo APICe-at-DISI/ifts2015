@@ -415,3 +415,73 @@ int main(void)
 * È possibile incrementare utilizzando l'operatore `++` e decrementare utilizzando l'operatore `--`. L'uso di questi operatori è **sconsigliato**, ma potreste trovarli nel codice scritto da altri (il loro uso è molto comune, specie come ultima istruzione dei cicli `for`)
 * È possibile utilizzare gli operatori `+=`, `-=`, `*=`, `/=` per scrivere in modo succinto un'operazione matematica che cambia il valore di una variabile. Ad esempio, `a = a + b` può esser scritto `a += b`. Come per `++` e `--`, il loro utilizzo è sconsigliato almeno fin quando non sarete esperti di programmazione C, ma potreste comunque incontrare questi operatori nel codice scritto da altri
 * A volte è possibile "risparmiare" una variabile contatore decrementando un valore che non verrà utilizzato in futuro (in questo caso `pow`). Tale pratica è sconsigliata, perché rende il codice più difficile da capire in cambio di un "risparmio" di memoria trascurabile. Ancora una volta, però, può capitarvi il caso in cui dobbiate mettere mano a del codice scritto da altri che fa uso di questa pratica
+
+### Esercizio: calcolo della somma di un numero arbitrario di numeri
+{% highlight c %}
+int main(void)
+{
+    int times;
+    printf("Inserire un numero intero positivo: ");
+    scanf("%d", &times);
+    int s = 0;
+    for (; times > 0; times--) {
+        int v;
+        printf("Inserisci un intero: ");
+        scanf("%d", &v);
+        s += v;
+    }
+    printf("La somma dei numeri inseriti è: %d\n", s);
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* È possibile utilizzare i cicli `for` e `while` per eseguire iterativamente (più volte) qualunque operazione (incluse ovviamente `printf` e `scanf`)
+
+
+## Lezione 03: chiamata a funzione, cambi di base, tipi numerici
+
+### Scrittura e chiamata di una funzione
+
+{% highlight c %}
+int somma(int a, int b)
+{
+    return a + b;
+}
+
+int getInput(void)
+{
+    int num;
+    printf("Inserire un numero intero: ");
+    scanf("%d", &num);
+    return num;
+}
+
+int main(void)
+{
+    int times = getInput();
+    int s = 0;
+    printf("I numeri inseriti d'ora in poi saranno sommati\n");
+    for (; times > 0; times--) {
+        int v = getInput();
+        s = somma(s, v);
+    }
+    printf("La somma dei numeri inseriti è: %d\n", s);
+}
+
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* Una funzione è il modo in cui si può spezzare un programma C in sotto-programmi.
+* Una funzione ha un nome, degli argomenti di ingresso, e un tipo di ritorno.
+* Non possono esistere due funzioni con lo stesso nome in C (anche se hanno numero o tipo di parametri diversi).
+* La prima cosa che va espressa è il tipo di ritorno, in questo caso sempre `int`. Se la funzione fa delle operazioni ma non restituisce nulla, è possibile usare il tipo di ritorno `void`
+* Gli argomenti vanno scritti dopo il nome fra parentesi. Possono essere in numero arbitrario, e all'atto di definizione della funzione per ciascuno si specifica il tipo ed un nome (si veda la funzione `somma`). Nel caso in cui non vi siano argomenti, è possibile scrivere `void` fra le parentesi (si veda la funzione `getInput`).
+* Nel caso in cui vi sia un valore atteso (ossia, nel caso in cui la funzione non restituisca `void`), una volta che il risultato è pronto è possibile restituirlo e dichiarare conclusa la computazione della funzione utilizzando l'istruzione `return` seguita dal risultato.
+* Anche `printf`, `scanf` e `main` sono delle funzioni.
+* Per chiamare una funzione, è sufficiente scrivere il suo nome seguito, fra parentesi tonde, dagli argomenti su cui la funzione dovrà lavorare separati da `,`. Ad esempio `somma(3, 4)` chiama la funzione `somma` mettendo come primo argomento il valore `3` e come secondo argomento il valore `4`
+* Si noti (per chi ha fatto analisi matematica) che la sintassi è simile a quella classica dell'analisi, e.g. `y = f(x)`.
+* Nel caso in cui la funzione non accetti alcun argomento, è possibile chiamarla senza passare alcun parametro. Attenzione però: le parentesi vanno comunque messe! Diversamente il compilatore cercherà una variabile, e darà un errore perché non definita. Si veda ad esempio la chiamata a `getInput()`.
+* Quando si esegue una chiamata a funzione, vengono copiati i valori negli argomenti della funzione, quindi si "salta" alla prima istruzione della funzione e si comincia ad eseguire. Si continua ad eseguire fino a che non viene raggiunta una istruzione di `return`, oppure (nel caso in cui la funzione restituisca `void`) fino a che le istruzioni nel corpo della funzione non sono finite.
+* Si noti che ora il `main` è molto più "snello" e facile da leggere: invece di avere esplicitamente scritte le chiamate a `printf` seguite da chiamate a `scanf`, abbiamo isolato il sotto-problema di acquisire input dall'utente in una funzione separata.
