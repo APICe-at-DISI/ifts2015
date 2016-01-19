@@ -154,7 +154,7 @@ int main(void)
 
 * In C non esistono i concetti di "vero" e "falso" (a differenza di molti dei linguaggi più moderni). In C i valori booleani (ossia, vero oppure falso) vengono espressi attraverso i numeri interi. In particolare: il valore "falso" vale `0`, mentre qualunque altro valore viene interpretato come "vero".
 * Qui vediamo l'operatore minore `<`, ma sono disponibili anche gli operatori maggiore `>` e uguale `==` -- si notino i *2* simboli di "=" successivi: un singolo simbolo `=` significa infatti *assegnamento*, non uguaglianza. Questi operatori prendono in ingresso due interi (uno a destra ed uno a sinistra) e restituiscono `1` (valore intero) se l'espressione è vera, e `0` se l'espressione è falsa.
-* Il programma stampa a video: `La variabile vale: 15, mentre l'intero vale 20`
+* Il programma stampa a video: `La variabile vale: 0, mentre l'intero vale 20`
 
 
 ### L'istruzione `if`
