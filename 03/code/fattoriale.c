@@ -22,12 +22,6 @@ int getInput(void)
     return num;
 }
 
-int fattInput(void)
-{
-    int val = getInput();
-    return fattoriale(val);
-}
-
 int main(void)
 {
     float d;
