@@ -486,3 +486,135 @@ int main(void)
 * Nel caso in cui la funzione non accetti alcun argomento, è possibile chiamarla senza passare alcun parametro. Attenzione però: le parentesi vanno comunque messe! Diversamente il compilatore cercherà una variabile, e darà un errore perché non definita. Si veda ad esempio la chiamata a `getInput()`.
 * Quando si esegue una chiamata a funzione, vengono copiati i valori negli argomenti della funzione, quindi si "salta" alla prima istruzione della funzione e si comincia ad eseguire. Si continua ad eseguire fino a che non viene raggiunta una istruzione di `return`, oppure (nel caso in cui la funzione restituisca `void`) fino a che le istruzioni nel corpo della funzione non sono finite.
 * Si noti che ora il `main` è molto più "snello" e facile da leggere: invece di avere esplicitamente scritte le chiamate a `printf` seguite da chiamate a `scanf`, abbiamo isolato il sotto-problema di acquisire input dall'utente in una funzione separata.
+
+### Ricorsività
+
+{% highlight c %}
+int fattoriale(int a)
+{
+    if (a == 0) {
+        return 1;
+    }
+    return a * fattoriale(a - 1);
+}
+
+int getInput(void)
+{
+    int num;
+    printf("Inserire un numero intero: ");
+    scanf("%d", &num);
+    return num;
+}
+
+int main(void)
+{
+    printf("Il fattoriale è: %d\n", fattoriale(getInput()));
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* **Premessa --** La funzione fattoriale calcola il prodotto di tutti i numeri interi positivi minori e uguali al numero passato (e.g. 5! = 5 * 4 * 3 * 2 * 1 = 120). Si fa notare che 5! = 5 * 4!, ossia che il fattoriale di un numero arbitrario n può essere definito come n * (n - 1)! (ricordandosi che 0! = 1).  È molto usata in statistica nei problemi combinatori (ad esempio se avete 5 palline diverse in una scatola, e le togliete a caso, in quanti diversi ordini possono venir fuori? Possono creare 5! = 120 combinazioni). [Si rimanda a Wikipedia per ulteriori dettagli](https://it.wikipedia.org/wiki/Fattoriale).
+* Una funzione può chiamare sé stessa. In questo caso, si dice che la funzione è *ricorsiva*
+* Ogni volta che viene chiamato `fattoriale` per un numero maggiore di `0`, la funzione richiama sé stessa con un valore più piccolo, e ricostruisce il valore moltiplicando "all'indietro"
+* È possibile usare il risultato di funzioni come argomento di funzioni: si veda `fattoriale(getInput())`: prima viene calcolato `getInput()`, il suo risultato viene dato in pasto a `fattoriale`, il risultato di `fattoriale` viene quindi passato a `printf`.
+
+### Tipi di dato numerici
+
+| Tipo | Formattatore | Significato | Dimensione in bit [1] |
+|:---:|:-------------: | :------------: | :-: |
+| `int` | `%d` | intero (positivo o negativo) | 32
+| `long` | `%ld` | intero (positivo o negativo) | 64
+| `unsigned int` | `%u` | intero positivo | 32
+| `unsigned long` | `%lu` | intero (positivo o negativo) | 64
+| `float` | `%f` | reale | 32
+| `double` | `%lf` | intero (positivo o negativo) | 64
+
+**[1] su Linux 64bit, su altre piattaforme potrebbe cambiare!**
+
+### Cast
+
+È possibile chiedere di convertire esplicitamente un tipo in un altro esplicitando fra parentesi il tipo "destinazione", ad esempio `int a = (int) 3.4 * 5.6`. C è molto permissivo, e se il cast non viene scritto a mano, lo fa comunque. Questa permissività è spesso fonte di errori! Meglio sempre esplicitare il cast, per segnalare a chi legge il codice che sapete cosa state facendo (e.g. passando da un reale ad un intero perdete precisione). Altri linguaggi (e.g. Java) rifiutano di compilare se si fanno delle conversioni che potrebbero portare a perdita di precisione senza un cast esplicito.
+
+### Fattoriale più preciso
+
+{% highlight c %}
+int fattoriale(int a)
+{
+    if (a == 0) {
+        return 1;
+    }
+    return a * fattoriale(a - 1);
+}
+
+unsigned long fattorialeLong(unsigned long a)
+{
+    if (a == 0) {
+        return 1;
+    }
+    return a * fattoriale(a - 1);
+}
+
+int getInput(void)
+{
+    int num;
+    printf("Inserire un numero intero: ");
+    scanf("%d", &num);
+    return num;
+}
+
+int main(void)
+{
+    float d;
+    for (int i = 0; i < 100000; i++){
+        d = d + 0.00003;
+    }
+    printf("%lf\n", d);
+    int input = getInput();
+    printf("Il fattoriale (long) è: %ld\n", fattorialeLong((unsigned long) input));
+    printf("Il fattoriale (int) è: %d\n", fattoriale(input));
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* I tipi di dato interi possono andare in *overflow*, ossia "sforare" il loro valore massimo. Se lo si sfora, C "scarta" la parte più significativa. Per capire, si immagini di avere a disposizione solo quattro caselle dove poter scrivere dei numeri decimali. Il massimo numero che potremmo scrivere sarebbe 9999. Ora si immagini di voler sommare il numero presente in quattro caselle con quello presente in altre quattro caselle e mettere il risultato in quattro caselle. Se si sommano 300 e 1233 ad esempio, il risultato è 1533 e non ci sono problemi. Se si sommano invece 9997 e 100, il risultato "sfora" le caselle disponibili. Quando questo succede, si parla di overflow. C esegue comunque la somma, ma taglia i valori più significativi. Nel nostro esempio con le caselle, il risultato invece di 10097, sarebbe semplicemente 97 (viene scartata la parte più significativa, ovvero le caselle più a destra, finché non ne restano quattro). In C le caselle sono bit, ed hanno valore binario.
+* Tipi diversi hanno precisione diversa: si noti come `fattorialeLong` continui a dare risultati giusti anche quando `fattoriale` (che usa gli `int`) comincia a dare risultati sbagliati.
+* Nel caso di numeri con segno, un bit (il più significativo) viene utilizzato per scrivere il segno.
+
+### Binario, ottale, esadecimale
+
+I numeri possono essere rappresentati in molti modi. Il sistema decimale (con dieci cifre) che utilizziamo abitualmente non è l'unico: ad esempio i computer "ragionano" in binario (ossia, con due cifre). È possibile creare sistemi con numero arbitrario di cifre (ossia di simboli disponibili), esempi notevoli sono il sistema ottale (8 cifre) ed esadecimale (16 cifre). La tabellina seguente mostra alcuni numeri nei diversi formati.
+
+| Base 2 (binario) | Base 8 (ottale)  | Base 10 (decimale) | Base 16 (esadecimale) |
+| :-: | :-: | :-: | :-: |
+| 0 | 0 | 0 | 0 |
+| 1 | 1 | 1 | 1 |
+| 10 | 2 | 2 | 2 |
+| 11 | 3 | 3 | 3 |
+| 100 | 4 | 4 | 4 |
+| 101 | 5 | 5 | 5 |
+| 110 | 6 | 6 | 6 |
+| 111 | 7 | 7 | 7 |
+| 1000 | 10 | 8 | 8 |
+| 1001 | 11 | 9 | 9 |
+| 1010 | 12 | 10 | A |
+| 1011 | 13 | 11 | B |
+| 1100 | 14 | 12 | C |
+| 1101 | 15 | 13 | D |
+| 1110 | 16 | 14 | E |
+| 1111 | 17 | 15 | F |
+| 10000 | 20 | 16 | 10 |
+| 10001 | 21 | 17 | 11 |
+| 10010 | 22 | 18 | 12 |
+| 10011 | 23 | 19 | 13 |
+| 10100 | 24 | 20 | 14 |
+| 11110 | 36 | 30 | 1E |
+| 11111111 | 377 | 255 | FF |
+
+Si noti come ciascuna cifra ottale corrisponde al valore di tre bit, e come ogni cifra esadecimale corrisponda al valore decimale di quattro bit. Per questa ragione, sono spesso usati.
+
+In C, è possibile scrivere numeri utilizzando il formato ottale premettendo uno `0` al numero, ed in formato esadecimale premettendo `0x` al numero.
+Ad esempio: `int v = 036` ha come valore decimale `30` (se stampato in una `printf` con formattatore `%d`, mostra a schermo `30`).
+Ad esempio: `int v = 0x1D` ha come valore decimale `35` (se stampato in una `printf` con formattatore `%d`, mostra a schermo `35`).
+Attenzione quindi, in particolare, a non prefiggere `0` quando scrivete un numero intero!
