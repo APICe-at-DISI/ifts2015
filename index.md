@@ -618,3 +618,100 @@ In C, è possibile scrivere numeri utilizzando il formato ottale premettendo uno
 Ad esempio: `int v = 036` ha come valore decimale `30` (se stampato in una `printf` con formattatore `%d`, mostra a schermo `30`).
 Ad esempio: `int v = 0x1D` ha come valore decimale `35` (se stampato in una `printf` con formattatore `%d`, mostra a schermo `35`).
 Attenzione quindi, in particolare, a non prefiggere `0` quando scrivete un numero intero!
+
+## Lezione 04: operatori, prototipi, header files, direttiva `#include`, puntatori
+
+### Operatori in C
+
+Gli operatori sono operazioni fornite dal linguaggio che consentono la manipolazione dei tipi di dato pre-esistenti.
+Ciascun operatore ha una propria *arità*, ossia il numero di argomenti che richiede per poter funzionare (ad esempio, la somma richiede due argomenti, la negazione uno).
+Gli operatori con arità 1 possono essere prefissi (ossia vegono prima dell'operando, come la negazione) o postfissi (vengono dopo l'operando).
+Gli operatori con arità 2 possono essere prefissi (ossia vegono prima degli operandi) oppure infissi (ossia appaiono fra i due operandi, come nel caso della somma: `2 + 3`).
+
+___
+
+**OPERATORI MATEMATICI**
+
+Si tratta di operatori che prendono in ingresso numeri e restituiscono numeri. Come visto in precedenza, in caso di operazioni fra numeri di tipo diverso (e.g. fra `int` e `float`) viene preso il tipo più "preciso". Se il tipo degli operandi coincide, allora il tipo del risultato è il medesimo.
+
+| Nome | Simbolo  | Arità | Posizione | Esempio |
+| :-: | :-: | :-: | :-: | :-: |
+| somma | `+` | 2 | infisso | `5 + 3` -- restituisce `8` |
+| sotrazione | `-` | 2 | infisso | `5 - 3` -- restituisce `2` |
+| moltiplicazione | `*` | 2 | infisso | `5 * 3` -- restituisce `15` |
+| divisione | `/` | 2 | infisso | `5 / 3` -- restituisce `1` |
+| modulo (resto della divisione per) | `%` | 2 | infisso | `5 % 3` -- restituisce `2` |
+
+___
+
+**OPERATORI LOGICI**
+
+Si tratta di operatori che prendono in ingresso booleani e restituiscono booleani.
+Come visto in precedenza, essendo C in realtà sprovvisto del concetto di booleano, questi operatori prendono in ingresso numeri, interpretando `0` come falso e qualunque altro numero come vero.
+Restituiscono `1` se l'operazione ha come risultato vero, e `0` se ha come risultato falso
+
+| Nome | Simbolo  | Arità | Posizione | Esempio |
+| :-: | :-: | :-: | :-: | :-: |
+| and | `&&` | 2 | infisso | `1 && 0` -- restituisce `0` |
+| or | `||` | 2 | infisso | `1 || 0` -- restituisce `1` |
+| negazione | `!` | 1 | prefisso | `!0` -- restituisce `1` |
+
+___
+
+**OPERATORI BIT A BIT**
+
+Si tratta di operatori "bitwise" che prendono in ingresso stringhe di bit e restituiscono stringhe di bit.
+Questi operatori prendono gli argomenti passati, ne ignorano l'interpretazione e guardano esclusivamente al loro contenuto in termini di sequenza di bit.
+Quando hanno più di un argomento, i valori degli argomenti sono confrontati confrontando uno ad uno i bit in posizione corrispondente.
+Sono particolarmente utili quando è necessario manipolare una sequenza di bit, ad esempio per inviare comandi ad un dispositivo esterno (e.g. un motore elettrico).
+Non vanno confusi con gli operatori logici! I risultati restituiti sono completamente *diversi*!
+
+| Nome | Simbolo  | Arità | Posizione | Esempio |
+| :-: | :-: | :-: | :-: | :-: |
+| and | `&` | 2 | infisso | `3 & 4` -- restituisce `0` |
+| or | `|` | 2 | infisso | `3 | 4` -- restituisce `7` |
+| xor | `^` | 2 | infisso | `3 ^ 5` -- restituisce `6` |
+| shift a destra con segno | `>>` | 2 | infisso | `-4 >> 1` -- restituisce `-2` |
+| shift a sinistra | `<<` | 2 | infisso | `-4 << 1` -- restituisce `-8` |
+| shift a destra senza segno | `>>>` | 2 | infisso | `-4 >>> 1` -- restituisce `2147483646` |
+| negazione | `~` | 1 | prefisso | `~0` -- restituisce `-1` |
+
+___
+
+## Prototipi di funzione
+
+{% highlight c %}
+int fattoriale(int);
+
+int getInput(void);
+
+int main(void)
+{
+    printf("Il fattoriale è: %d\n", fattoriale(getInput()));
+}
+
+int fattoriale(int a)
+{
+    if (a == 0) {
+        return 1;
+    }
+    return a * fattoriale(a - 1);
+}
+
+int getInput(void)
+{
+    int num;
+    printf("Inserire un numero intero: ");
+    scanf("%d", &num);
+    return num;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* Il compilatore C richiede che una funzione sia definita *prima* del punto in cui viene chiamata. Questo limita la potenza espressiva, ad esempio non sarebbe possibile fare funzioni "mutuamente ricorsive", dove una richiama l'altra, perché ce ne sarebbe sempre una non definita nel momento in cui viene chiamata.
+* Per superare questa limitazione, è possibile dichiarare i *prototipi* delle funzioni prima della loro effettiva implementazione.
+* Il prototipo della funzione include il tipo di ritorno, il nome, ed il tipo e numero degli argomenti (ma non il loro nome). Non include il corpo (si noti che non ci sono le parentesi graffe).
+* Il compilatore "sa" che la funzione è definita, e compila senza problemi anche se non conosce l'implementazione, che aggiungerà solo dopo. 
+
+### La direttiva `#include`
