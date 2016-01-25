@@ -750,4 +750,48 @@ int main(void)
 
 ## La guardia `#ifndef` / `#define` / `#endif`
 
-* 
+-- file `math/fattoriale.c` --
+{% highlight c %}
+#ifndef FATTORIALE_C
+#define FATTORIALE_C
+
+unsigned long fattoriale(unsigned long a)
+{
+    if (a == 0) {
+        return 1;
+    }
+    return a * fattoriale(a - 1);
+}
+#endif
+{% endhighlight %}
+
+-- file `utility.c` --
+{% highlight c %}
+#include "math/fattoriale.c"
+
+void printFattoriale(int n)
+{
+    printf("%d! = %lu", n, fattoriale(n));
+}
+{% endhighlight %}
+
+-- file `usefact.c` --
+{% highlight c %}
+#include "math/fattoriale.c"
+#include "utility.c"
+
+int main(void)
+{
+    printf("Il fattoriale di 5 è: %lu\n", fattoriale(5));
+    printFattoriale(8);
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* È possibile istruire il preprocessore perché copi ciascun file al più una sola volta.
+* Il modo di istruirlo a fare questa cosa è tramite l'utilizzo di una direttiva `#ifndef`, seguita da un nome, e terminata da una direttiva `#endif`. All'interno di questo blocco, si utilizza la direttiva `#define` seguita dallo stesso nome usato dopo `#ifndef`.
+* Questa direttiva nel suo complesso si legge come: «se non è ancora stato definito questo nome, definisci il nome, quindi copia tutto quello che c'è fino ad `#endif`. Altrimenti, non copiare nulla. In ogni caso, copia tutto quello che sta dopo `#endif`».
+* Nel caso in esame, sia `utility.c` che `usefact.c` includono `fattoriale.c`. Senza le guardie, la compilazione di `usefact.c` darebbe un errore, perché la funzione `fattoriale` sarebbe definita due volte (a causa del fatto che `usefact.c` sarebbe copiato dentro `utility.c`, e poi sia `utility.c` con la sua copia di `fattoriale.c` che `fattoriale.c` sarebbero copiati dentro `usefact.c`). Con la guardia, il file viene copiato una sola volta, consentendo quindi la compilazione.
+* È bene che il nome assegnato dopo `#ifndef` corrisponda al nome del file scritto in maiuscolo, con il `.` sostituito da un `_`. Questo evita il fatto che due persone utilizzino lo stesso nome per due file diversi, causando l'impossibilità di includere entrambi. 
