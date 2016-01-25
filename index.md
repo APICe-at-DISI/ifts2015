@@ -678,7 +678,7 @@ Non vanno confusi con gli operatori logici! I risultati restituiti sono completa
 
 ___
 
-## Prototipi di funzione
+### Prototipi di funzione
 
 {% highlight c %}
 int fattoriale(int);
@@ -750,7 +750,7 @@ int main(void)
 * Nel caso in cui si scriva l'`#include` per due volte, il file verrà copiato per due volte , generando un errore di compilazione perché la stessa funzione è definita più volte. Questo fatto crea un grosso problema, perché potremmo volere includere dei file che a loro volta includono altri file, e rischieremmo di trovarci nell'impossibilità di compilare a causa di questi include confliggenti.
 * Nel caso in cui due sorgenti si importino l'un l'altro, il preprocessore comincia a copiare uno dentro l'altro ad oltranza, fin quando non termina con un errore.
 
-## La guardia `#ifndef` / `#define` / `#endif`
+### La guardia `#ifndef` / `#define` / `#endif`
 
 -- file `math/fattoriale.c` --
 {% highlight c %}
@@ -798,7 +798,7 @@ int main(void)
 * Nel caso in esame, sia `utility.c` che `usefact.c` includono `fattoriale.c`. Senza le guardie, la compilazione di `usefact.c` darebbe un errore, perché la funzione `fattoriale` sarebbe definita due volte (a causa del fatto che `usefact.c` sarebbe copiato dentro `utility.c`, e poi sia `utility.c` con la sua copia di `fattoriale.c` che `fattoriale.c` sarebbero copiati dentro `usefact.c`). Con la guardia, il file viene copiato una sola volta, consentendo quindi la compilazione.
 * È bene che il nome assegnato dopo `#ifndef` corrisponda al nome del file scritto in maiuscolo, con il `.` sostituito da un `_`. Questo evita il fatto che due persone utilizzino lo stesso nome per due file diversi, causando l'impossibilità di includere entrambi.
 
-## Librerie e file header
+### Librerie e file header
 
 --file `fattoriale.h` --
 {% highlight c %}
@@ -848,3 +848,92 @@ int main(void)
 * Nella macchina virtuale del corso, questi header si trovano nella directory `/usr/include/`: potete aprirli e leggerli!
 * Le funzioni `printf` e `scanf` si trovano in `stdio.h` (sta per "Standard Input/Output")
 * Altre librerie molto utili si trovano in `stdlib.h` (Standard Library), `string.h` (manipolazione di stringhe di testo), e `math.h` (funzioni matematiche).
+
+### Puntatori
+
+{% highlight c %}
+#include <stdio.h>
+
+int main(void)
+{
+    int a = 8;
+    int *b = &a;
+    int c = *b;
+    *b = c - 1;
+    printf("Valore di a: %d\n", a); // 7
+    printf("Valore di c: %d\n", c); // 8
+    printf("Valore di b: %p\n", b); // Numero esadecimale, e.g. 0x7ffeb83c1b1c
+    printf("Indirizzo in memoria di a: %p\n", &a); // Uguale a prima, e.g. 0x7ffeb83c1b1c
+    printf("Indirizzo in memoria di b: %p\n", &b); // Indirizzo diverso! E.g. 0x7ffeb83c1b10
+    printf("Indirizzo in memoria di c: %p\n", &c); // Altro indirizzo, e.g.  0x7ffeb83c1b0c
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* In C abbiamo la possibilità di manipolare gli *indirizzi* di memoria in cui i dati sono scritti. Un tipo di dato che rappresenta un indirizzo prende il nome di "puntatore".
+* Per dichiarare che una variabile non contiene un dato ma un indirizzo, si utilizza il tipo del dato puntato seguito da un asterisco. Ad esempio, l'indirizzo a cui risiede una variabile `int` è di tipo `int *`. L'indirizzo a cui risiede una variabile di tipo `long` è di tipo `long *`.
+* È possibile anche chiedere l'indirizzo di una variabile che contiene un indirizzo: se supponiamo che `x` sia un `int`, `y` un puntatore ad `x` e `z` un puntatore ad `y`, i loro tipi saranno rispettivamente `int` per `x`, `int *` per `y`, e `int **` per `z`.
+* Per sapere a quale indirizzo in memoria risiede una variabile, è possibile utilizzare l'operatore unario prefisso reference: `&`. Questo operatore prende in ingresso una variabile di qualunque tipo e restituisce un puntatore alla stessa. Se la variabile in ingresso è di tipo `int`, allora il tipo di ritorno sarà `int *` (puntatore ad intero). Se la variabile in ingresso fosse `double`, il tipo di ritorno sarebbe `double *` (puntatore a double). Se il tipo d'ingresso fosse `float *` (puntatore a `float`) allora il tipo di ritorno sarebbe `float **` (puntatore ad un puntatore a float). È possibile andare avanti all'infinito: se la variabile in ingresso fosse di tipo `int ****` (puntatore ad un puntatore ad un puntatore ad un puntatore ad intero), il risultato sarebbe di tipo `int *****` (puntatore ad un puntatore ad un puntatore ad un puntatore ad un puntatore ad intero).
+* Per accedere alla variabile puntata da un puntatore si utilizza l'operatore unario deference: `*`. **Attenzione**: si tratta dello stesso simbolo utilizzato per la moltiplicazione e per la definizione del tipo puntatore, ma ha un significato completamente diverso! L'operazione di deference prende una variabile, la interpreta come indirizzo, e va in memoria a quell'indirizzo.
+* Cosa succede nell'esempio:
+  0. Viene creata una variabile `a`, ad esempio all'indirizzo `0x7ffeb83c1b1c` (l'indirizzo può cambiare ad ogni esecuzione).
+  0. Nella variabile `a` viene scritto il valore `8`: all'indirizzo `0x7ffeb83c1b1c` ci sarà scritto il numero `8`.
+  0. Viene creata una variabile `b` di tipo `int *` (puntatore ad intero), ad esempio all'indirizzo `0x7ffeb83c1b10`.
+  0. Viene scritto nella variabile `b` l'indirizzo della variabile `a`: all'indirizzo `0x7ffeb83c1b10` ci sarà dunque scritto il numero `0x7ffeb83c1b1c`.
+  0. Viene crata una variabile `c` di tipo `int`, supponiamo all'indirizzo `0x7ffeb83c1b0c`
+  0. Viene scritto in `c` il valore *puntato da* `b`: grazie all'operatore di deference, si legge il contenuto di `b`, ossia `0x7ffeb83c1b1c`, si va a quell'indirizzo di memoria e si legge cosa c'è scritto. In questo caso, ci sarà scritto `8`. Disegnando i puntatori come frecce, l'operazione di deference equivale a "percorrere la freccia"
+  0. Viene scritto, nella zona di memoria *puntata da* `b`, il valore di `c - 1`. Come sopra, si va quindi a prendere il contenuto di `b`, ossia `0x7ffeb83c1b1c`, e si scrive a quell'indirizzo il risultato dell'operazione. Essendo quell'indirizzo l'indirizzo in cui si trova la variabile `a`, abbiamo modificato il valore di `a`!
+
+### Errori di segmentazione
+
+{% highlight c %}
+#include <stdio.h>
+
+int main(void)
+{
+    int a = 8;
+    int *b = &a;
+    int c = *b;
+    // Questo programma è BUGGATO!
+    printf("Quanto vale? %d\n", *((int *)((long) c)));  // Segmentation fault
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* Bisogna fare attenzione quando si utilizzano i puntatori! Il sistema operativo è responsabile di decidere quali processi possono leggere e scrivere in memoria e dove, ed in caso di accessi illegali termina immediatamente il processo in corso. Un accesso illegale ad un segmento di memoria che non appartiene all'applicazione prende il nome di *errore di segmentazione* o *segmentation fault*.
+* Gli errori in Windows come `la memoria non poteva essere read` o `la memoria non poteva essere written` sono dovuti a deference illegali (spesso bug del programma).
+* Quando capita un errore di segmentazione su Linux, l'applicazione viene terminata e viene scritto `Segmentation fault` sul terminale. Su Windows, appare una finestra del sistema operativo che "cerca una soluzione online al problema".
+* Il compilatore dà dei warning quando si usano i puntatori in modo poco ortodosso: bisogna sforzarsi di leggere e capire questi warning!
+* È possibile ingannare il compilatore eseguendo dei cast (conversioni di tipo) successivi -- ovviamente, non va fatto.
+
+### Esempio di uso dei puntatori
+
+{% highlight c %}
+#include <stdio.h>
+
+void f(int *c, int *d)
+{
+    int temp = *c;
+    *c = *d;
+    *d = temp;
+}
+
+int main(void)
+{
+    int a = 10;
+    int b = 20;
+    printf("PRIMA: a = %d, b = %d\n", a, b); // a = 10, b = 20
+    f(&a, &b);
+    printf("DOPO: a = %d, b = %d\n", a, b); // a = 20, b = 10
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* I puntatori consentono di effettuare operazioni altrimenti impossibili, in questo esempio ad esempio si invertono i valori di due variabili appartenenti alla funzione chiamante!
+* Assicurarsi di aver compreso in modo *cristallino* cosa avviene quando si esegue questo esempio, ed in particolare cosa fa l'istruzione `*c = *d;`! 
