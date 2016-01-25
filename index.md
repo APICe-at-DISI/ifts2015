@@ -727,12 +727,27 @@ unsigned long fattoriale(unsigned long a)
 }
 {% endhighlight %}
 
+-- file `usefact.c` --
 {% highlight c %}
-unsigned long fattoriale(unsigned long a)
+#include "math/fattoriale.c"
+
+int main(void)
 {
-    if (a == 0) {
-        return 1;
-    }
-    return a * fattoriale(a - 1);
+    printf("Il fattoriale di 5 è: %lu\n", fattoriale(5));
+    return 0;
 }
 {% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* È possibile spezzare un programma C in più file.
+* In effetti, è una buona pratica farlo, perché un singolo file enorme diventerebbe molto difficile da manutenere. Si pensi ad esempio cosa succederebbe se l'intero kernel Linux, di circa 20 milioni di righe di codice, fosse in un solo file! Sarebbe impossibile leggerlo ed usarlo.
+* È possibile chiedere al *preprocessore* del compilatore di *copiare* il contenuto di un file dentro un altro file tramite la direttiva `#include`.
+* La direttiva `include` va fatta seguire dalla posizione del file che si vuole includere, relativa alla posizione del file in cui la `#include` si trova, messa fra doppi apici (`"`).
+* `#include` viene eseguita *prima* della vera compilazione, e costituisce una vera e propria copia del contenuto di un file dentro un altro.
+* Nel caso in cui si scriva l'`#include` per due volte, il file verrà copiato per due volte , generando un errore di compilazione perché la stessa funzione è definita più volte. Questo fatto crea un grosso problema, perché potremmo volere includere dei file che a loro volta includono altri file, e rischieremmo di trovarci nell'impossibilità di compilare a causa di questi include confliggenti.
+* Nel caso in cui due sorgenti si importino l'un l'altro, il preprocessore comincia a copiare uno dentro l'altro ad oltranza, fin quando non termina con un errore.
+
+## La guardia `#ifndef` / `#define` / `#endif`
+
+* 
