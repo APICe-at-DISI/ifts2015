@@ -688,6 +688,7 @@ int getInput(void);
 int main(void)
 {
     printf("Il fattoriale è: %d\n", fattoriale(getInput()));
+    return 0;
 }
 
 int fattoriale(int a)
@@ -713,6 +714,7 @@ int getInput(void)
 * Per superare questa limitazione, è possibile dichiarare i *prototipi* delle funzioni prima della loro effettiva implementazione.
 * Il prototipo della funzione include il tipo di ritorno, il nome, ed il tipo e numero degli argomenti (ma non il loro nome). Non include il corpo (si noti che non ci sono le parentesi graffe).
 * Il compilatore "sa" che la funzione è definita, e compila senza problemi anche se non conosce l'implementazione, che aggiungerà solo dopo.
+* La funzione `main` è una funzione come le altre, ed essendo il suo tipo di ritorno dichiarato `int` deve restituire un intero al termine dell'esecuzione. Questo intero ha il significato di "codice d'errore": se il main termina restituendo `0` allora il programma ha terminato senza errori, altrimenti il valore restituito indica il codice d'errore.
 
 ### La direttiva `#include`
 
@@ -794,4 +796,55 @@ int main(void)
 * Il modo di istruirlo a fare questa cosa è tramite l'utilizzo di una direttiva `#ifndef`, seguita da un nome, e terminata da una direttiva `#endif`. All'interno di questo blocco, si utilizza la direttiva `#define` seguita dallo stesso nome usato dopo `#ifndef`.
 * Questa direttiva nel suo complesso si legge come: «se non è ancora stato definito questo nome, definisci il nome, quindi copia tutto quello che c'è fino ad `#endif`. Altrimenti, non copiare nulla. In ogni caso, copia tutto quello che sta dopo `#endif`».
 * Nel caso in esame, sia `utility.c` che `usefact.c` includono `fattoriale.c`. Senza le guardie, la compilazione di `usefact.c` darebbe un errore, perché la funzione `fattoriale` sarebbe definita due volte (a causa del fatto che `usefact.c` sarebbe copiato dentro `utility.c`, e poi sia `utility.c` con la sua copia di `fattoriale.c` che `fattoriale.c` sarebbero copiati dentro `usefact.c`). Con la guardia, il file viene copiato una sola volta, consentendo quindi la compilazione.
-* È bene che il nome assegnato dopo `#ifndef` corrisponda al nome del file scritto in maiuscolo, con il `.` sostituito da un `_`. Questo evita il fatto che due persone utilizzino lo stesso nome per due file diversi, causando l'impossibilità di includere entrambi. 
+* È bene che il nome assegnato dopo `#ifndef` corrisponda al nome del file scritto in maiuscolo, con il `.` sostituito da un `_`. Questo evita il fatto che due persone utilizzino lo stesso nome per due file diversi, causando l'impossibilità di includere entrambi.
+
+## Librerie e file header
+
+--file `fattoriale.h` --
+{% highlight c %}
+#ifndef FATTORIALE_H
+#define FATTORIALE_H
+
+unsigned long fattoriale(unsigned long);
+
+#endif
+{% endhighlight %}
+
+--file `fattoriale.c` --
+{% highlight c %}
+#include "fattoriale.h"
+
+unsigned long fattoriale(unsigned long a)
+{
+    if (a == 0) {
+        return 1;
+    }
+    return a * fattoriale(a - 1);
+}
+{% endhighlight %}
+
+--file `usofattoriale.c` --
+{% highlight c %}
+#include "fattoriale.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(void)
+{
+    printf("5! = %lu\n", fattoriale(5));
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* È buona prassi dichiarare i prototipi delle funzioni che si implementano in un file c in file header (estensione .h), magari corredati da un commento. In questo modo, chi fa uso delle funzioni può limitarsi ad importare gli header, ignorando l'implementazione (principio ingegneristico di [information hiding](https://it.wikipedia.org/wiki/Incapsulamento_(informatica))).
+* È possibile compilare i file che non contengono un main specificando che desideriamo creare una *libreria*, ossia una collezione di funzioni che non realizzano un programma, ma offrono supporto alla scrittura di programmi.
+* Per compilare un file C come libreria si utilizza la flag `-c` in `gcc`. La compilazione con questa flag produce un file oggetto (estensione `.o` su Linux) che rappresenta una libreria.
+* Ad esempio, in questo caso, è necessario per prima cosa compilare `fattoriale.c` con il comando `gcc -c fattoriale.c`. Il compilatore creerà il file `fattoriale.o`. Ora è possibile compilare il file `usofattoriale.c` utilizzando il comando `gcc fattoriale.o usofattoriale.c`. `gcc` sarà in grado di trovare la funzione corretta dentro `fattoriale.o` grazie al prototipo dichiarato in `fattoriale.h`. Si noti che *è necessario specificare i file oggetto da utilizzare quando si compila, o il compilatore darà errore lamentandosi che una funzione è definita implicitamente*.
+* Abbiamo finora utilizzato funzioni come `printf` come se fossero oggetti magici. In realtà sono funzioni scritte in C esattamente come le nostre! Dove sono? Sono distribuite (precompilate) come parte del sistema operativo, e i loro prototipi sono contenuti in file header contenuti in una cartella di sistema.
+* Quando si utilizzano tali funzioni, è bene importare gli header dove sono definiti. Quando si vuole importare uno header che si trova installato nel sistema, si usa la direttiva `#include <headerdisistema.h>` (dove a `headerdisistema.h` va sostituito il vero nome del file). Si noti l'uso delle parentesi angolari (minore e maggiore,  `<>`) in luogo dei doppi apici (`""`).
+* Nella macchina virtuale del corso, questi header si trovano nella directory `/usr/include/`: potete aprirli e leggerli!
+* Le funzioni `printf` e `scanf` si trovano in `stdio.h` (sta per "Standard Input/Output")
+* Altre librerie molto utili si trovano in `stdlib.h` (Standard Library), `string.h` (manipolazione di stringhe di testo), e `math.h` (funzioni matematiche).
