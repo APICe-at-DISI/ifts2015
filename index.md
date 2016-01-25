@@ -552,7 +552,7 @@ unsigned long fattorialeLong(unsigned long a)
     if (a == 0) {
         return 1;
     }
-    return a * fattoriale(a - 1);
+    return a * fattorialeLong(a - 1);
 }
 
 int getInput(void)
@@ -712,6 +712,27 @@ int getInput(void)
 * Il compilatore C richiede che una funzione sia definita *prima* del punto in cui viene chiamata. Questo limita la potenza espressiva, ad esempio non sarebbe possibile fare funzioni "mutuamente ricorsive", dove una richiama l'altra, perché ce ne sarebbe sempre una non definita nel momento in cui viene chiamata.
 * Per superare questa limitazione, è possibile dichiarare i *prototipi* delle funzioni prima della loro effettiva implementazione.
 * Il prototipo della funzione include il tipo di ritorno, il nome, ed il tipo e numero degli argomenti (ma non il loro nome). Non include il corpo (si noti che non ci sono le parentesi graffe).
-* Il compilatore "sa" che la funzione è definita, e compila senza problemi anche se non conosce l'implementazione, che aggiungerà solo dopo. 
+* Il compilatore "sa" che la funzione è definita, e compila senza problemi anche se non conosce l'implementazione, che aggiungerà solo dopo.
 
 ### La direttiva `#include`
+
+-- file `math/fattoriale.c` --
+{% highlight c %}
+unsigned long fattoriale(unsigned long a)
+{
+    if (a == 0) {
+        return 1;
+    }
+    return a * fattoriale(a - 1);
+}
+{% endhighlight %}
+
+{% highlight c %}
+unsigned long fattoriale(unsigned long a)
+{
+    if (a == 0) {
+        return 1;
+    }
+    return a * fattoriale(a - 1);
+}
+{% endhighlight %}
