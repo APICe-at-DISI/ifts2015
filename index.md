@@ -1266,21 +1266,10 @@ int main(void)
 
 * Molto spesso, la definizione delle `struct` viene scritta direttamente all'interno dei `typedef`. Questo compatta la scrittura, ma va tenuto a mente che `struct` e `typedef` sono due operazioni completamente *distinte*.
 
+### Applicazione C completa
 
+A [questo indirizzo](https://bitbucket.org/danysk/finf-a-function-drawer) è disponibile un esempio di applicazione C completa, che include anche l'interfaccia grafica. Quest'applicazione fa uso delle librerie [Glib](https://wiki.gnome.org/Projects/GLib) per la gestione dei dati interni e [GTK+3](http://www.gtk.org/) (insieme a [GDK](https://developer.gnome.org/gdk3/stable/) e [cairo](http://cairographics.org/)) per il disegno delle finestre su schermo.
 
+La gran parte del codice utilizzato dovrebbe esservi comprensibile.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-___
+Con ulteriore allenamento, partendo dalle basi studiate in queste cinque lezioni, dovreste essere in grado di comprendere ed apportare modifiche a software esistente scritto in linguaggio C. 
