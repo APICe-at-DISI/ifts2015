@@ -315,6 +315,7 @@ int main(void)
   1. un'operazione da eseguire una sola volta prima di entrare nel ciclo. È particolarmente utile per definire e inizializzare una nuova variabile su cui contare;
   2. un'operazione da eseguire al termine del ciclo. È particolarmente utile per incrementare (o decrementare) un conteggio.
 * È possibile definire e inizializzare le variabili su una sola linea (ad esempio `int a = 5;`)
+* **ATTENZIONE --** le vecchie versioni del compilatore `gcc` utilizzano di default lo standard C89. In questo standard, C non supporta l'inizializzazione di variabili come prima istruzione del `for`. Il consiglio è quello di compilare utilizzando l'opzione `-std=c99` (e.g. `gcc -std=c99 programma.c`). L'alternativa è quella di dichiarare la variabile *prima* del ciclo, nello scope più esterno.
 
 ### Errori di looping
 {% highlight c %}
@@ -952,14 +953,12 @@ int main(void)
     printf("Valore di sizeof(long): %d\n", sizeof(long));
     printf("Valore di sizeof(double): %d\n", sizeof(double));
     printf("Valore di sizeof(int *): %d\n", sizeof(int *));
-    int *a = (int *) malloc(3 * sizeof(int));
+    int *a = (int *) malloc(sizeof(int));
     printf("Valore di a: %p\n", a);
     printf("Valore puntato da a: %d\n", *a);
     *a = 22;
     printf("Valore di a: %p\n", a);
     printf("Valore puntato da a: %d\n", *a);
-    a[1] = 33; // uguale a: *(a + 1) = 33
-    printf("Valore puntato di a[1]: %d\n", *(a + 1));
 }
 {% endhighlight %}
 
@@ -973,8 +972,125 @@ int main(void)
 * Ricordarsi a memoria la dimensione in byte di qualunque tipo di dato è proibitivo (specialmente, vedremo poi, quando si utilizzano strutture dati). Inoltre, la dimensione dei tipi di dato potrebbe cambiare da piattaforma a piattaforma! Ad esempio, `int *` ha dimensione 4 byte (2 bit) nei sistemi a 32bit e 8 byte (64bit) nei sistemi a 64bit.
 * Per superare questa difficoltà, il compilatore C mette a disposizione la macro `sizeof`, che prende in ingresso il *tipo* di dato e lo sostituisce con la sua dimensione in byte per la piattaforma corrente.
 * Una macro è un'istruzione che viene eseguita prima della compilazione vera e propria, ed il cui risultato viene "scritto" nel file che si sta per compilare (esattamente come per `#include`)
+
+### Array dinamici
+
+{% highlight c %}
+#include <stdlib.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int size = 100;
+    int *a = (int *) malloc(size * sizeof(int));
+    for(int i = 0; i < size; i = i + 1) {
+        a[i] = i * 2; // Equivale a: *(a + i) = i * 2;
+    }
+    for (int i = 0; i < size; i++) {
+        printf("Indirizzo %p, valore %d\n", a + i, a[i]);
+    }
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
 * È possibile allocare spazio in memoria per più oggetti dello stesso tipo, semplicemente moltiplicando la macro `sizeof` per il numero di oggetti che vogliamo conservare in quell'area.
+* Il numero di oggetti da creare può essere stabilito a run-time, ad esempio usando una variabile.
 * Allocare spazio per più entità attraverso una `malloc` costruisce un cosiddetto "array dinamico".
 * Abbiamo ora un problema: sappiamo utilizzare l'operatore deference (`*`, unario) per "percorrere" un puntatore ed ottenere il valore puntato. Nel caso di un array dinamico, però, questo restituirebbe semplicemente il primo elemento. Per accedere ad elementi successivi, è possibile utilizzare l'*aritmetica dei puntatori*, ossia: le somme e le sottrazioni fra puntatori e interi "spostano" avanti e indietro il puntatore lungo la memoria. Conseguentemente, il primo elemento di un array `a`, che avremmo normalmente deferenziato come `*a`, può essere deferenziato come `*(a + 0)`. Con questa scrittura, è facile capire che il secondo elemento di `a` sarà `*(a + 1)` (parti dall'indirizzo `a`, vai avanti una volta di tante celle quanto è grande l'oggetto puntato da `a`, quindi esegui il deference). Allo stesso modo, il terzo elemento sarà `*(a + 2)` (a partire da `a`, vai avanti due volte di tante celle quanto è grande l'oggetto puntato da `a`, quindi deferenzia).
 * Si noti come, con la scrittura di cui sopra, il primo elemento di un array sia in posizione `0` (si somma `0` ad `a`), il secondo elemento sia in posizione `1` (si somma `1` ad `a`) e così via.
 * C consente di usare una scrittura più compatta ed intuitiva per accedere ad un array dinamico rispetto alla somma di puntatori e interi seguita da deference: è possibili utilizzare l'accesso "con indice". Per accedere all'elemento `n`-esimo di un array `a`, si può utilizzare `a[n]`. Questa scrittura è equivalente a `*(a + n)`.
+
+### Array di array e funzione `free`
+
+{% highlight c %}
+#include <stdlib.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int sx = 5;
+    int sy = 8;
+    int **matrix = (int **) malloc(sx * sizeof(int *));
+    for (int i = 0; i < sx; i = i + 1) {
+        matrix[i] = (int *) malloc(sy * sizeof(int));
+    }
+    for (int i = 0; i < sx; i++) {
+        for (int j = 0; j < sy; j++) {
+            // *(*(matrix + i) + j) = (i + 1) * j;
+            matrix[i][j] = (i + 1) * j;
+        }
+    }
+    matrix[0][0] = 144;
+    for (int i = 0; i < sx; i++) {
+        for (int j = 0; j < sy; j++) {
+            printf("%d\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+    for (int i = 0; i < sx; i++) {
+        free(matrix[i]);
+    }
+    free(matrix);
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* È possibile allocare spazio in memoria per array di puntatori. In questo caso, si ottiene un puntatore a puntatori.
+* È possibile procedere un numero di volte arbitrario (puntatore a puntatori a puntatori ... a puntatori)
+* È possibile utilizzare dei cicli `for` innestati per riempire, scorrere e creare array di array
+* Per prima cosa si crea l'array più esterno (che contiene gli altri) e quindi via via quelli più interni.
+* Per accedere ad un elemento di un array di array, è possibile utilizzare due volte l'operatore di accesso a posizione (tre volte per array di array di array, etc.).
+* Si noti come l'uso dell'operatore suddetto sia più intutitivo rispetto all'aritmetica dei puntatori con uso dell'operatore di deference: `*(*(matrix + i) + j)` diventa molto più semplicemente `matrix[i][j]` (si legge matrix di i di j).
+* La memoria che è stata allocata ma che non sarà più utilizzata va *liberata*, ossia va marcata come riutilizzabile (il sistema operativo potrà riassegnarla ad altri processi, o anche a questo in futuro). Se la memoria suddetta non viene liberata correttamente, l'applicazione ogni volta si riserverà dei pezzetti di memoria e non li rilascerà mai, finendo con il saturare la memoria RAM della macchina (oppure finendo con l'essere terminata dal sistema operativo per uso eccessivo di memoria).
+* Per liberare la memoria allocata dinamicamente con `malloc` si utilizza la funzione `free`.
+* `free` prende in ingresso un puntatore e libera la memoria dinamica ad esso associata.
+* Bisogna fare molta attenzione in caso di puntatori a puntatori: se si libera prima la memoria allocata al primo puntatore, sarà poi *impossibile* liberare quella allocata ai puntatori puntati dal primo: bisogna liberare *prima* la memoria allocata più "internamente".
+* Questo tipo di errore è piuttosto subdolo: invertendo l'ultimo `for` e l'ultima istruzione `free`, si ottiene un programma sbagliato, che viene però compilato senza errori, e (spesso) eseguito senza errori. Proprio perché difficile da "riprodurre" si tratta di uno dei bug più difficili da eliminare!
+* Il carattere speciale `\t` (tabular) è utile per spaziare omogeneamente colonne di caratteri.
+
+### Array di array e funzione `free`
+
+{% highlight c %}
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char *str = "Dimensione di un char: %d\n";
+    printf(str, sizeof(char));
+    char *nome = "Pluto";
+    printf("Il nome del cane è: %s, di lunghezza %d\n", nome, strlen(nome));
+
+    char *test = (char *) malloc(1000 * sizeof(char));
+    test[0] = 'i';
+    test[1] = 'f';
+    test[2] = 't';
+    test[3] = 's';
+    test[4] = '\0';
+    printf("La stringa è: %s, ed è lunga %d\n", test, strlen(test));
+    printf("La stringa %s è uguale a %s? %d\n", "ifts", test, strcmp(test, "ifts"));
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* In C, il tipo `char` rappresenta un singolo carattere [ASCII](http://www.asciitable.com/)
+* Si può creare un char mettendo il simbolo desiderato fra singoli apici, ad esempio per creare un char con valore `a` si scrive `'a'`.
+* Il formattatore per il tipo `char` è `%c`
+* Le stringhe di testo in C altro non sono che `char *`, contenenti tutti e `char` della stringa in sequenza e terminate dal carattere speciale `\0` (null).
+* Le stringhe, essendo `char *`, possono essere manipolate esattamente come qualunque array (create con `malloc`, accedute posizionalmente, etc.).
+* Il primo argoento della `printf` è un `char *`: ora che sappiamo creare variabili di questo tipo, possiamo anche cambiare dinamicamente il testo stampato da `printf` (o letto da `scanf`). È anche possibile stampare delle stringhe utilizzando il formattatore `%s`, in quel caso la stringa passata come argomento successivo verrà inserita al posto del formattatore.
+* Non importa quanto grande sia lo spazio allocato per una stringa: essa si considera terminata solo quando viene incontrato il carattere `\0`.
+* **Attenzione**: questo significa anche che una stringa alla quale manca il terminatore `\0`, se stampata ad esempio, verrà letta fino ad *oltre* la sua dimensione, ossia finché non verrà incontrato in memoria un byte che (più o meno per caso) valga `\0`. Questo significa che *molto facilmente* si otterranno errori di segmentazione se le stringhe che create non saranno propriamente "null-terminate".
+* Esiste una libreria standard [cstring](http://www.cplusplus.com/reference/cstring/), il cui header è nominato `string.h`, che contiene un insieme di utilità per la manipolazione di stringhe.
+* Esempi di funzioni disponibili in cstring sono:
+  0. `char *strcpy(char *, char*)` -- restituisce una copia di una stringa.
+  0. `char *strcat(char *, char*)` -- concatena due stringhe.
+  0. `int strcmp(char *, char*)` -- confronta due stringhe, restituisce `0` se sono uguali, un numero diverso da `0` se non lo sono.
+  0. `int strlen(char *)` -- restituisce la lunghezza di una stringa.
