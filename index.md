@@ -936,4 +936,45 @@ int main(void)
 *Cosa imparare da questo esempio:*
 
 * I puntatori consentono di effettuare operazioni altrimenti impossibili, in questo esempio ad esempio si invertono i valori di due variabili appartenenti alla funzione chiamante!
-* Assicurarsi di aver compreso in modo *cristallino* cosa avviene quando si esegue questo esempio, ed in particolare cosa fa l'istruzione `*c = *d;`! 
+* Assicurarsi di aver compreso in modo *cristallino* cosa avviene quando si esegue questo esempio, ed in particolare cosa fa l'istruzione `*c = *d;`!
+
+## Lezione 05: memoria dinamica, stringhe e strutture dati
+
+### La macro `sizeof` e la funzione `malloc`
+
+{% highlight c %}
+#include <stdlib.h>
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Valore di sizeof(int): %d\n", sizeof(int));
+    printf("Valore di sizeof(long): %d\n", sizeof(long));
+    printf("Valore di sizeof(double): %d\n", sizeof(double));
+    printf("Valore di sizeof(int *): %d\n", sizeof(int *));
+    int *a = (int *) malloc(3 * sizeof(int));
+    printf("Valore di a: %p\n", a);
+    printf("Valore puntato da a: %d\n", *a);
+    *a = 22;
+    printf("Valore di a: %p\n", a);
+    printf("Valore puntato da a: %d\n", *a);
+    a[1] = 33; // uguale a: *(a + 1) = 33
+    printf("Valore puntato di a[1]: %d\n", *(a + 1));
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* `malloc` è una funzione che prende in ingresso un `int` e restituisce un `void *`
+* La funzione `malloc` richiede al sistema operativo di allocare della memoria per il processo corrente. L'argomento della funzione è il numero di celle di memoria (ossia di byte) che si desidera avere.
+* La funzione `malloc` restituisce un puntatore all'area di memoria che il sistema operativo mette a disposizone. Non potendo sapere quale tipo di dato sarà ospitato in quell'area di memoria, il tipo di ritorno è `void *`
+* `void *` è il tipo che in C identifica un puntatore ad un'area di memoria il cui contenuto è sconosciuto.
+* Affinché sia possibile utilizzare in modo appropriato quell'area di memoria, è bene convertire il tipo `void *` restituito da `malloc` nel tipo che andremo ad usare effettivamente (nell'esempio `int *`). Tale conversione si effettua con un cast.
+* Ricordarsi a memoria la dimensione in byte di qualunque tipo di dato è proibitivo (specialmente, vedremo poi, quando si utilizzano strutture dati). Inoltre, la dimensione dei tipi di dato potrebbe cambiare da piattaforma a piattaforma! Ad esempio, `int *` ha dimensione 4 byte (2 bit) nei sistemi a 32bit e 8 byte (64bit) nei sistemi a 64bit.
+* Per superare questa difficoltà, il compilatore C mette a disposizione la macro `sizeof`, che prende in ingresso il *tipo* di dato e lo sostituisce con la sua dimensione in byte per la piattaforma corrente.
+* Una macro è un'istruzione che viene eseguita prima della compilazione vera e propria, ed il cui risultato viene "scritto" nel file che si sta per compilare (esattamente come per `#include`)
+* È possibile allocare spazio in memoria per più oggetti dello stesso tipo, semplicemente moltiplicando la macro `sizeof` per il numero di oggetti che vogliamo conservare in quell'area.
+* Allocare spazio per più entità attraverso una `malloc` costruisce un cosiddetto "array dinamico".
+* Abbiamo ora un problema: sappiamo utilizzare l'operatore deference (`*`, unario) per "percorrere" un puntatore ed ottenere il valore puntato. Nel caso di un array dinamico, però, questo restituirebbe semplicemente il primo elemento. Per accedere ad elementi successivi, è possibile utilizzare l'*aritmetica dei puntatori*, ossia: le somme e le sottrazioni fra puntatori e interi "spostano" avanti e indietro il puntatore lungo la memoria. Conseguentemente, il primo elemento di un array `a`, che avremmo normalmente deferenziato come `*a`, può essere deferenziato come `*(a + 0)`. Con questa scrittura, è facile capire che il secondo elemento di `a` sarà `*(a + 1)` (parti dall'indirizzo `a`, vai avanti una volta di tante celle quanto è grande l'oggetto puntato da `a`, quindi esegui il deference). Allo stesso modo, il terzo elemento sarà `*(a + 2)` (a partire da `a`, vai avanti due volte di tante celle quanto è grande l'oggetto puntato da `a`, quindi deferenzia).
+* Si noti come, con la scrittura di cui sopra, il primo elemento di un array sia in posizione `0` (si somma `0` ad `a`), il secondo elemento sia in posizione `1` (si somma `1` ad `a`) e così via.
+* C consente di usare una scrittura più compatta ed intuitiva per accedere ad un array dinamico rispetto alla somma di puntatori e interi seguita da deference: è possibili utilizzare l'accesso "con indice". Per accedere all'elemento `n`-esimo di un array `a`, si può utilizzare `a[n]`. Questa scrittura è equivalente a `*(a + n)`.
