@@ -1052,7 +1052,7 @@ int main(void)
 * Questo tipo di errore è piuttosto subdolo: invertendo l'ultimo `for` e l'ultima istruzione `free`, si ottiene un programma sbagliato, che viene però compilato senza errori, e (spesso) eseguito senza errori. Proprio perché difficile da "riprodurre" si tratta di uno dei bug più difficili da eliminare!
 * Il carattere speciale `\t` (tabular) è utile per spaziare omogeneamente colonne di caratteri.
 
-### Array di array e funzione `free`
+### Stringhe di testo in C
 
 {% highlight c %}
 #include <stdlib.h>
@@ -1094,3 +1094,193 @@ int main(void)
   0. `char *strcat(char *, char*)` -- concatena due stringhe.
   0. `int strcmp(char *, char*)` -- confronta due stringhe, restituisce `0` se sono uguali, un numero diverso da `0` se non lo sono.
   0. `int strlen(char *)` -- restituisce la lunghezza di una stringa.
+
+### Strutture dati
+
+{% highlight c %}
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+struct umano {
+    char *nome;
+    char *cognome;
+    int anni;
+};
+
+void printUmano(struct umano *soggetto)
+{
+    printf("%s %s ha %d anni.\n", soggetto -> nome, soggetto -> cognome, soggetto -> anni);
+}
+
+struct umano *creaUmano(char *nome, char *cognome, int anni)
+{
+    struct umano *risultato = (struct umano*) malloc(sizeof(struct umano));
+    // Di seguito, tre modi equivalenti per accedere ai campi!
+    (*risultato).nome = nome;
+    risultato[0].cognome = cognome;
+    risultato -> anni = anni;
+    return risultato;
+}
+
+int main(void)
+{
+    struct umano *mestesso = creaUmano("Danilo", "Pianini", 100);
+    printUmano(mestesso);
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* C consente di definire strutture dati personalizzate.
+* Le strutture dati possono a loro volta contenere delle strutture dati
+* La struttura dati è uno dei meccanismi più potenti che C mette a disposizione: essa consente infatti di organizzare le informazioni in maniera tale che riproducano il "dominio" del programma: un software che debba gestire, ad esempio, una scuola, non dovrà sempre lavorare con numeri e stringhe, ma potrà avere una struttura dati per ciascuna delle proprie *astrazioni*, ad esempio studente, docente, aula, classe, istituto...
+* Una struttura dati comincia con la parola chiave `struct` ed è seguita da un nome, che costituisce anche il nome del tipo. Ad esempio, se creassi una `struct pippo`, il nome del tipo (che andrà ripetuto ogni volta che si dichiara una variabile con quel tipo) è `struct pippo`. Se si utilizza solo `pippo`, omettendo la keyword `struct`, il compilatore lancia un errore.
+* Una struttura dati è composta da *campi*. I campi rappresentano lo *stato* della struttura dati, ossia ciò di cui è composta.
+* Per accedere ai campi di una struct si utilizza l'operatore binario infisso `.`. L'operatore `.` prende la struttura dati a sinistra dell'operatore ed accede al campo scritto a destra.
+* La macro `sizeof` funziona anche con i tipi `struct`, per cui è possibile creare puntatori (e quindi array) di `struct` arbitrarie.
+* Il modo più comune di utilizzare le `struct` è tramite puntatori, che evitano inutili duplicazioni in memoria.
+* Nel caso in cui si utilizzi un puntatore ad una struttura dati, è comunque possibile accedere ai campi utilizzando `.`. Bisogna avere però la cura di dereferenziare prima la variabile che si sta usando, utilizzando l'operatore `*`. Ad esempio, se si ha in mano una variabile `a` di tipo `struct pippo *` e si desidera accedere al campo `coda` della struttura suddetta, bisognerà scrivere `(*pippo).coda`. Le parentesi sono necessarie, perché l'operatore `.` è più prioritario dell'operatore `*`. Se omesse, si accederebbe al campo coda di un puntatore (campo non esistente), con risultati imprevedibili, e si effettuerebbe poi un reference, che molto probabilmente risulterebbe in un segmentatio fault.
+* Essendo molto comune lavorare con i puntatori, esiste un operatore binario infisso che consente di evitare l'uso congiunto degli operatori `.` e `*` quando si manipola un puntatore a `struct`. Questo è l'operatore `->`, che, anche intuitivamente, simboleggia un deference seguito dall'accesso ad un campo. L'esempio precedente `(*pippo).coda` si srive quindi in modo equivalente `pippo -> coda`.
+
+### Definizione di nuovi tipi con `typedef`
+
+{% highlight c %}
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+struct persona {
+    char *nome;
+    char *cognome;
+    int anni;
+};
+
+typedef struct persona umano;
+
+void printUmano(umano *soggetto)
+{
+    printf("%s %s ha %d anni.\n", soggetto -> nome, soggetto -> cognome, soggetto -> anni);
+}
+
+umano *creaUmano(char *nome, char *cognome, int anni) {
+    umano *risultato = (umano*) malloc(sizeof(umano));
+    risultato -> nome = nome;
+    risultato -> cognome = cognome;
+    risultato -> anni = anni;
+    return risultato;
+}
+
+int main(void)
+{
+    umano *mestesso = creaUmano("Danilo", "Pianini", 100);
+    printUmano(mestesso);
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* C consente di definire nuovi tipi di dato utilizando l'istruzione `typedef`.
+* `typedef` va seguita dal nome precedente del tipo, seguito poi dal nuovo nome del tipo.
+* Ad esempio, `typedef int intero` definisce un nuovo tipo di dato di nome `intero`, che è lo stesso tipo di `int`. Dopo l'istruzione descritta prima, sarà legittimo scrivere ad esempio `intero a = 10`.
+* È particolarmente utile utilizzare `typedef` in congiunzione con `struct`: questo consente di risparmiare la scrittura della keyword `struct` ogni volta che si utilizza la struttura dati.
+* Nell'esempio, `struct persona` e `umano` sono tipi di dato utilizzabili intercambiabilmente.
+
+### Definizione di nuovi tipi con `typedef`
+
+{% highlight c %}
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+struct persona {
+    char *nome;
+    char *cognome;
+    int anni;
+};
+
+typedef struct persona umano;
+
+void printUmano(umano *soggetto)
+{
+    printf("%s %s ha %d anni.\n", soggetto -> nome, soggetto -> cognome, soggetto -> anni);
+}
+
+umano *creaUmano(char *nome, char *cognome, int anni) {
+    umano *risultato = (umano*) malloc(sizeof(umano));
+    risultato -> nome = nome;
+    risultato -> cognome = cognome;
+    risultato -> anni = anni;
+    return risultato;
+}
+
+int main(void)
+{
+    umano *mestesso = creaUmano("Danilo", "Pianini", 100);
+    printUmano(mestesso);
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* C consente di definire nuovi tipi di dato utilizando l'istruzione `typedef`.
+
+### Uso congiunto di `struct` e `typedef`
+
+{% highlight c %}
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+typedef struct umano {
+    char *nome;
+    char *cognome;
+    int anni;
+} umano;
+
+void printUmano(umano *soggetto)
+{
+    printf("%s %s ha %d anni.\n", soggetto -> nome, soggetto -> cognome, soggetto -> anni);
+}
+
+umano *creaUmano(char *nome, char *cognome, int anni) {
+    umano *risultato = (umano*) malloc(sizeof(umano));
+    risultato -> nome = nome;
+    risultato -> cognome = cognome;
+    risultato -> anni = anni;
+    return risultato;
+}
+
+int main(void)
+{
+    umano *mestesso = creaUmano("Danilo", "Pianini", 100);
+    printUmano(mestesso);
+    return 0;
+}
+{% endhighlight %}
+
+*Cosa imparare da questo esempio:*
+
+* Molto spesso, la definizione delle `struct` viene scritta direttamente all'interno dei `typedef`. Questo compatta la scrittura, ma va tenuto a mente che `struct` e `typedef` sono due operazioni completamente *distinte*.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+___
