@@ -1335,4 +1335,7 @@ Codice:
 
 Esercizi proposti:
 
-* Under construction
+* si propongo 4 esercizi, in ordine Point2D, Point3D, Person e SquareGenerator
+* per ognuno si fornisce un test che dovrà essere soddisfatto, e l'impalcatura della classe, da completare opportunamente
+* il docente rimane a disposizione per controllare le vostre soluzioni funzionanti
+* trovate lo zip del codice qui: [08/03-esercizi.zip](08/03-esercizi.zip)
