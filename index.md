@@ -1296,3 +1296,43 @@ Argomenti trattati
 * Definizione di variabili di tipi primitivi e String
 * Costruttori di programmazione strutturata di base (if, while, for)
 * Definizioni e chiamate di funzioni locali
+
+Codice mostrato:
+
+* [HelloWorld.java](06/HelloWorld.java)
+* [Primo.java](06/Primo.java)
+* [Secondo.java](06/Secondo.java)
+* [Funzione.java](06/Funzione.java)
+* [Primo.java](06/Primo.java)
+
+## Lezione 07 (OOP2): Classi, campi e metodi
+
+Metodologia di sviluppo
+
+* Design dell'interfaccia della classe (UML e come scheletro della classe)
+* Specifica del comportamento atteso (con classe di test/collaudo)
+* Implementazione dello stato degli oggetti (campi, tassativamente privati)
+* Implementazione dei metodi (uso di this per accedere ai campi)
+* Verifica del test
+
+Codice:
+
+* [07/07-code.zip](07/07-code.zip)
+
+## Lezione 08 (OOP3): Costruttori, codice statico, librerie
+
+Argomenti
+
+* Il costruttore come modalità flessibile per impostare lo stato iniziale di un oggetto
+* Classi immutabili, campo final
+* Metodi statici
+* Import di classi e package
+* Librerie: String, Math, java.util.Date
+
+Codice:
+
+* [08/08-code.zip](08/08-code.zip)
+
+Esercizi proposti:
+
+* Under construction
