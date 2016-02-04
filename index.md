@@ -1273,3 +1273,26 @@ A [questo indirizzo](https://bitbucket.org/danysk/finf-a-function-drawer) è dis
 La gran parte del codice utilizzato dovrebbe esservi comprensibile.
 
 Con ulteriore allenamento, partendo dalle basi studiate in queste cinque lezioni, dovreste essere in grado di comprendere ed apportare modifiche a software esistente scritto in linguaggio C. 
+
+## Lezione 06 (OOP1): elementi di programmazione ad oggetti e Java
+
+### Ingegneria del Software e OOP
+
+Argomenti trattati
+
+* Il problema della complessità dei sistemi software moderni
+* Ciclo di vita del software (analisi, progettazione implementazione, post-codifica)
+* Problem domain vs solution domain
+* I paradigmi di programmazione 
+* Il paradigma ad oggetti, elementi principali
+
+### Java vs C
+
+Argomenti trattati
+
+* JVM e compilatore Java
+* Compilazione ed esecuzione di HelloWorld
+* Tipi primitivi (int, double, boolean)
+* Definizione di variabili di tipi primitivi e String
+* Costruttori di programmazione strutturata di base (if, while, for)
+* Definizioni e chiamate di funzioni locali
