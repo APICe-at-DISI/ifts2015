@@ -1339,3 +1339,27 @@ Esercizi proposti:
 * per ognuno si fornisce un test che dovrà essere soddisfatto, e l'impalcatura della classe, da completare opportunamente
 * il docente rimane a disposizione per controllare le vostre soluzioni funzionanti
 * trovate lo zip del codice qui: [08/03-esercizi.zip](08/03-esercizi.zip)
+
+## Lezione 09 (OOP4): Composizione e array
+
+Argomenti
+
+* Principi: Single Responsibility Principle (SRP), e Don't Repeat Yourself (DRY)
+* Composizione come meccanismo di riuso
+* Puntatore null e NullPointerException
+* Array
+* Argomenti da linea di comando
+
+Codice:
+
+* [08/08-code.zip](09/09-code.zip)
+
+Slide:
+
+Il seguente materiale, preso dal corso OOP tenuto a Cesena, è utilizzabile come materiale didattico integrativo per i contenuti visti fin'ora:
+
+* http://campus.unibo.it/194314/
+* http://campus.unibo.it/194315/
+* http://campus.unibo.it/198298/
+* http://campus.unibo.it/198299/
+* http://campus.unibo.it/200264/
