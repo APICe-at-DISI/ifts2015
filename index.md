@@ -1272,7 +1272,7 @@ A [questo indirizzo](https://bitbucket.org/danysk/finf-a-function-drawer) è dis
 
 La gran parte del codice utilizzato dovrebbe esservi comprensibile.
 
-Con ulteriore allenamento, partendo dalle basi studiate in queste cinque lezioni, dovreste essere in grado di comprendere ed apportare modifiche a software esistente scritto in linguaggio C. 
+Con ulteriore allenamento, partendo dalle basi studiate in queste cinque lezioni, dovreste essere in grado di comprendere ed apportare modifiche a software esistente scritto in linguaggio C.
 
 ## Lezione 06 (OOP1): elementi di programmazione ad oggetti e Java
 
@@ -1283,7 +1283,7 @@ Argomenti trattati
 * Il problema della complessità dei sistemi software moderni
 * Ciclo di vita del software (analisi, progettazione implementazione, post-codifica)
 * Problem domain vs solution domain
-* I paradigmi di programmazione 
+* I paradigmi di programmazione
 * Il paradigma ad oggetti, elementi principali
 
 ### Java vs C
@@ -1354,9 +1354,31 @@ Codice:
 
 * [08/08-code.zip](09/09-code.zip)
 
-Slide:
+## Lezione 10 (OOP5): Eclipse come IDE, Interfacce e principio di sostituibilità
 
-Il seguente materiale, preso dal corso OOP tenuto a Cesena, è utilizzabile come materiale didattico integrativo per i contenuti visti fin'ora:
+Argomenti
+
+* Integrated Development Environments
+* Eclipse come esempio di IDE
+* Struttura del workspace, struttura dei progetti
+* Creazione di nuovi progetti
+* Strumenti per la compilazione automatizzata e l'esecuzione in-IDE
+* Prospettive e viste, configurabilità dell'ambiente grafico
+* Strumenti per la generazione di codice: generazione di stub di classi, autocompletamento del codice, strumenti di refactoring
+* Utilizzo del debugger: inserimento di breakpoints, lancio in modalità debug, visualizzazione del valore delle variabili a virtual machine sospesa, operazioni di step-into e step-over, hot code injection
+* L'interfaccia come contratto o specifica di una categoria di oggetti
+* Classi che implementano interfacce
+* Sostituibilità di una interfaccia con la classe che la implementa: *se C è una classe che implementa l'interfaccia I, tutti gli oggetti dichiarati di tipo I in un programma possono essere sostituiti con oggetti di tipo C senza intaccare la funzionalità del programma*
+* Progettazione di interfacce *prima* di fornire la loro implementazione
+
+Codice:
+
+* [Codice direttamente importabile in Eclipse](10/ifts09.zip)
+
+
+## Slide per tutta la parte di object oriented programming
+
+Il seguente materiale, preso dal corso OOP tenuto a Cesena, è utilizzabile come materiale didattico integrativo per i contenuti visti fin'ora.
 
 * http://campus.unibo.it/194314/
 * http://campus.unibo.it/194315/
