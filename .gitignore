@@ -10,3 +10,5 @@
 *.bbl
 *.aux
 *.vrb
+*/bin/*
+
