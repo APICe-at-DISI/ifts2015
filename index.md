@@ -1375,6 +1375,34 @@ Codice:
 
 * [Codice direttamente importabile in Eclipse](10/ifts09.zip)
 
+## Lezione 11 (OOP6): Ereditarietà e polimorfismo
+
+Argomenti
+
+* Estensione di classi
+* Subclassing come metodo per evitare duplicazioni di codice
+* Override di metodi delle superclassi
+* Chiamata di metodi e costruttori della classe padre: la keyword `super`
+* Limitazioni all'estensione tramite l'uso di `final`
+* Estensione e subtyping
+* Polimorfismo e sostuibilità di superclassi con sottoclassi
+* La classe `Object` come radice della gerarchia delle classi
+* Uso congiunto di classe e interfacce, ereditarietà multipla con interfacce, [pattern Adapter](https://it.wikipedia.org/wiki/Adapter_pattern) (cenno)
+* La notazione UML come linguaggio grafico (solo diagramma delle classi, uso non rigoroso)
+* Classi astratte, differenza fra classi astratte e interfacce, la keyword `abstract`, il [pattern Teplate Method (cenni)](https://it.wikipedia.org/wiki/Template_method)
+* Tipi primitivi vs. wrapper types, autoboxing, autodeboxing
+* Tipi compile-time e tipi run-time e loro identificazione: la keyord `instanceof`, l'operatore di cast
+* Copie difensive e side effects (ripasso)
+
+Slide (con codice):
+
+* Ereditarietà
+* Polimorfismo
+
+Gli studenti sono invitati ad *esercitarsi*: ad esempio, una volta studiato e compreso il codice delle slide, possono provare a riprodure il programma, e ad estenderlo, ad esempio:
+* Creare un contatore che conti solo i numeri pari, partendo da `Counter`
+* Creare un contatore di Fibonacci, che ad ogni  `increment()` vada al numero successivo della [serie di Fibonacci](https://it.wikipedia.org/wiki/Successione_di_Fibonacci) (1, 1, 2, 3, 5, 8, 13, 21, 34, 55...)
+* In ogni esercizio, sfruttare *al massimo* l'ereditarietà per usare il codice delle superclassi
 
 ## Slide per tutta la parte di object oriented programming
 
