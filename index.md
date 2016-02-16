@@ -1400,6 +1400,7 @@ Slide (con codice):
 * Polimorfismo
 
 Gli studenti sono invitati ad *esercitarsi*: ad esempio, una volta studiato e compreso il codice delle slide, possono provare a riprodure il programma, e ad estenderlo, ad esempio:
+
 * Creare un contatore che conti solo i numeri pari, partendo da `Counter`
 * Creare un contatore di Fibonacci, che ad ogni  `increment()` vada al numero successivo della [serie di Fibonacci](https://it.wikipedia.org/wiki/Successione_di_Fibonacci) (1, 1, 2, 3, 5, 8, 13, 21, 34, 55...)
 * In ogni esercizio, sfruttare *al massimo* l'ereditarietà per usare il codice delle superclassi
