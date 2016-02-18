@@ -1396,8 +1396,8 @@ Argomenti
 
 Slide (con codice):
 
-* Ereditarietà
-* Polimorfismo
+* [Ereditarietà](11/07-Inheritance.pdf)
+* [Polimorfismo](11/08-Polymorphism.pdf)
 
 Gli studenti sono invitati ad *esercitarsi*: ad esempio, una volta studiato e compreso il codice delle slide, possono provare a riprodure il programma, e ad estenderlo, ad esempio:
 
@@ -1409,8 +1409,8 @@ Gli studenti sono invitati ad *esercitarsi*: ad esempio, una volta studiato e co
 
 Il seguente materiale, preso dal corso OOP tenuto a Cesena, è utilizzabile come materiale didattico integrativo per i contenuti visti fin'ora.
 
-* http://campus.unibo.it/194314/
-* http://campus.unibo.it/194315/
-* http://campus.unibo.it/198298/
-* http://campus.unibo.it/198299/
-* http://campus.unibo.it/200264/
+* [http://campus.unibo.it/194314/](http://campus.unibo.it/194314/)
+* [http://campus.unibo.it/194315/](http://campus.unibo.it/194315/)
+* [http://campus.unibo.it/198298/](http://campus.unibo.it/198298/)
+* [http://campus.unibo.it/198299/](http://campus.unibo.it/198299/)
+* [http://campus.unibo.it/200264/](http://campus.unibo.it/200264/)
