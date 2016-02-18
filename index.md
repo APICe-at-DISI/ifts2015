@@ -1405,6 +1405,16 @@ Gli studenti sono invitati ad *esercitarsi*: ad esempio, una volta studiato e co
 * Creare un contatore di Fibonacci, che ad ogni  `increment()` vada al numero successivo della [serie di Fibonacci](https://it.wikipedia.org/wiki/Successione_di_Fibonacci) (1, 1, 2, 3, 5, 8, 13, 21, 34, 55...)
 * In ogni esercizio, sfruttare *al massimo* l'ereditarietà per usare il codice delle superclassi
 
+# Lezione 12 (OOP7): Generici e Collections Framework
+
+Slide (con codice):
+
+* [Generici](12/09-Generics.pdf)
+* [Collections](11/10-Collections.pdf)
+
+
+
+
 ## Slide per tutta la parte di object oriented programming
 
 Il seguente materiale, preso dal corso OOP tenuto a Cesena, è utilizzabile come materiale didattico integrativo per i contenuti visti fin'ora.
