@@ -1410,8 +1410,8 @@ Gli studenti sono invitati ad *esercitarsi*: ad esempio, una volta studiato e co
 Slide (con codice):
 
 * [Generici](12/09-Generics.pdf)
-* [Collections (List e Set)](11/10-Collections.pdf)
-* [Collections (Map)](11/11-GenColl2.pdf)
+* [Collections (List e Set)](12/10-Collections.pdf)
+* [Collections (Map)](12/11-GenColl2.pdf)
 
 
 
