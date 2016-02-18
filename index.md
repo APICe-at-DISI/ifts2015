@@ -1413,8 +1413,12 @@ Slide (con codice):
 * [Collections (List e Set)](12/10-Collections.pdf)
 * [Collections (Map)](12/11-GenColl2.pdf)
 
+Esercizi:
 
-
+* Sfruttare il contatore di Fibonacci realizzato per la lezione precedente e realizzare un `Iterator` di Fibonacci (si veda il `RangeIterator` delle slide come punto di partenza)
+* Si crei un programma che, utilizzando una `List<String>`, stampi a video la vostra prossima lista della spesa.
+* Si crei una mappa che associa a ciascun Paese Europeo la propria capitale, e la si stampi a video.
+* *Solo i coraggiosi:* tentare di implementare il grafo suggerito al termine delle slides sulle Map. Non si implementi il metodo `getPath`. Suggerimento: il grafo può essere visto come un'associazione fra un nodo e un insieme non ordinato e senza duplicati di Nodi.
 
 ## Slide per tutta la parte di object oriented programming
 
