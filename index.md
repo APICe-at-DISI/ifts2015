@@ -1412,6 +1412,7 @@ Slide (con codice):
 * [Generici](12/09-Generics.pdf)
 * [Collections (List e Set)](12/10-Collections.pdf)
 * [Collections (Map)](12/11-GenColl2.pdf)
+* [Codice sviluppato a lezione](12/workspace/generics-collections.zip)
 
 Esercizi:
 
