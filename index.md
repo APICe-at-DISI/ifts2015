@@ -1354,6 +1354,16 @@ Codice:
 
 * [08/08-code.zip](09/09-code.zip)
 
+
+Il seguente materiale, preso dal corso OOP tenuto a Cesena, è utilizzabile come materiale didattico integrativo per i contenuti visti fin'ora.
+
+* [http://campus.unibo.it/194314/](http://campus.unibo.it/194314/)
+* [http://campus.unibo.it/194315/](http://campus.unibo.it/194315/)
+* [http://campus.unibo.it/198298/](http://campus.unibo.it/198298/)
+* [http://campus.unibo.it/198299/](http://campus.unibo.it/198299/)
+* [http://campus.unibo.it/200264/](http://campus.unibo.it/200264/)
+
+
 ## Lezione 10 (OOP5): Eclipse come IDE, Interfacce e principio di sostituibilità
 
 Argomenti
@@ -1421,12 +1431,39 @@ Esercizi:
 * Si crei una mappa che associa a ciascun Paese Europeo la propria capitale, e la si stampi a video.
 * *Solo i coraggiosi:* tentare di implementare il grafo suggerito al termine delle slides sulle Map. Non si implementi il metodo `getPath`. Suggerimento: il grafo può essere visto come un'associazione fra un nodo e un insieme non ordinato e senza duplicati di Nodi.
 
-## Slide per tutta la parte di object oriented programming
+# Lezione 13 (OOP8): Graphical User Interfaces
 
-Il seguente materiale, preso dal corso OOP tenuto a Cesena, è utilizzabile come materiale didattico integrativo per i contenuti visti fin'ora.
+Argomenti
 
-* [http://campus.unibo.it/194314/](http://campus.unibo.it/194314/)
-* [http://campus.unibo.it/194315/](http://campus.unibo.it/194315/)
-* [http://campus.unibo.it/198298/](http://campus.unibo.it/198298/)
-* [http://campus.unibo.it/198299/](http://campus.unibo.it/198299/)
-* [http://campus.unibo.it/200264/](http://campus.unibo.it/200264/)
+* Struttura base di Swing
+* JFrame, JPanel, JDialog, JComponent
+* Costruizione base di un JFrame
+* Layout di componenti: FlowLayout, BorderLayout
+* Gestione di eventi
+* Costruzione di una semplice GUI con Input e Output
+
+Materiale:
+
+* [Slide](13/16-GUI.pdf)
+* [SwingSet2](13/SwingSet2.jar)
+* [Codice sviluppato a lezione](13/code.zip)
+
+# Lezione 14 (OOP9): Eccezioni e I/O
+
+Argomenti
+
+* Catch di eccezioni
+* Lancio di una eccezione
+* Lettura e scrittura di file di dati (DataInput/OutputStream)
+* Serializzazione e lettura/scrittura di file di oggetti (ObjectInput/OutputStream)
+* Semplice gestione di un archivio 
+* Lettura/scrittura di file di testo (BufferedReader/Writer)
+* Pattern MVC
+* Un esempio di applicazione
+
+Materiale:
+
+* [Slide Exceptions](14/13-Exceptions.pdf)
+* [Slide I/O](14/15-InputOutput.pdf)
+* [Codice sviluppato a lezione](14/code.zip)
+* [Esempio di applicazione MVC](14/mvc.zip)
